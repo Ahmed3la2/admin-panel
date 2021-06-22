@@ -1,0 +1,115 @@
+<template>
+  <div class="overview">
+    <div class="row mb-5">
+      <div class="col-4 col-md-7">
+        <h4 class="head">overview</h4>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="d-flex justify-content-end">
+          <div class="date date-from pl-4">
+            <span>15 sep 2020</span>
+            <i class="fadeIn animated bx bx-calendar ml-5"></i>
+          </div>
+          <div class="date date-to ml-auto ml-md-5 pl-4">
+            <span>20 sep 2020</span>
+            <i class="fadeIn animated bx bx-calendar ml-5"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-5">
+      <!-- New User -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <NewUser />
+      </div>
+      <!-- Active Customer -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <ActiveCustomer />
+      </div>
+      <!-- total Users -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <TotalUser />
+      </div>
+      <!-- total profit -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <Totalprofit />
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <!-- Application Activity -->
+      <div class="col-12 col-md-9">
+        <AppActive />
+      </div>
+      <!-- Top Service Provider -->
+      <div class="col-12 col-md-3">
+        <Topserveprovider />
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Recent Order -->
+      <div class="col-12 col-md-9">
+        <RecentOrder />
+      </div>
+      <!-- Top categories -->
+      <div class="col-12 col-md-3">
+        <TopCategoreis />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+* {
+  overflow: hidden;
+}
+.overview {
+  padding: 20px;
+}
+.overview .head {
+  font-weight: bolder;
+}
+
+.overview .date {
+  background-color: white;
+  padding: 5px;
+  width: 195;
+  border-radius: 5px;
+  box-shadow: 0 0 12px rgb(0 0 0 / 26%);
+  color: #828282;
+}
+</style>
+
+<script>
+import NewUser from "../admin/overview_comp/newuser.vue";
+import TotalUser from "./overview_comp/totaluser.vue";
+import ActiveCustomer from "./overview_comp/activecustomer.vue";
+import Totalprofit from "./overview_comp/totalprofit.vue";
+import AppActive from "./overview_comp/zee.vue";
+import Topserveprovider from "./overview_comp/topserveprovider.vue";
+import TopCategoreis from "./overview_comp/topcat.vue";
+import RecentOrder from "./overview_comp/recentorder.vue";
+// import axios from 'axios';
+
+export default {
+  components: {
+    NewUser,
+    TotalUser,
+    ActiveCustomer,
+    Totalprofit,
+    AppActive,
+    Topserveprovider,
+    TopCategoreis,
+    RecentOrder,
+  },
+
+  created() {
+    // axios.get('https://masla7a.herokuapp.com/admin/control/service-providers', {
+    //   headers:{
+    //       'x-auth-token': localStorage.getItem('token')
+    //   }
+    // }).then(res => console.log(res.data))
+  },
+};
+</script>
