@@ -4,7 +4,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>1.2M</p>
+          <p>1.3M</p>
           <p class="new-user-percent">-25%</p>
         </div>
         <div class="col-4">
