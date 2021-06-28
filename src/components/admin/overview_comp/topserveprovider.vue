@@ -11,7 +11,7 @@
             <p>{{ serve.name }}</p>
             <div class="stars">
               <i
-                class="fas fa-star top"
+                class="bx bxs-star top"
                 v-for="index in 5"
                 v-bind:key="index"
               ></i>
