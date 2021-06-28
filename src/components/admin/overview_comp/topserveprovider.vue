@@ -1,3 +1,4 @@
+<!--eslint-disable --> 
 <template>
   <div class="card">
     <div class="card-header">Top Service Provider</div>
@@ -11,9 +12,10 @@
             <p>{{ serve.name }}</p>
             <div class="stars">
               <i
-                class="fas fa-star top"
+                class="bx bxs-star"
                 v-for="index in 5"
                 v-bind:key="index"
+                style="color: #b5b500"
               ></i>
             </div>
           </div>
@@ -22,6 +24,7 @@
     </ul>
   </div>
 </template>
+<!--eslint-disable --> 
 
 <style scoped>
 .overview .card {

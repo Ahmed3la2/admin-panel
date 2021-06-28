@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <div class="card">
     <div class="card-header">New User</div>
@@ -82,6 +83,7 @@
     </ul>
   </div>
 </template>
+<!-- eslint-disable -->
 
 <style scoped>
 .overview .card {

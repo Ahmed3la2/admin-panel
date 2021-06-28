@@ -1,5 +1,5 @@
 /*jshint esversion: 8 */
-
+/* eslint-disable */  
 import Vue from "vue";
 import VueRouter from "vue-router";
 import admin from "../views/admin/dashboard";
@@ -31,6 +31,10 @@ const routes = [
     meta: {
       isAuth: true,
     },
+  },
+  {
+    path: "*",
+    redirect:'/'
   },
 ];
 

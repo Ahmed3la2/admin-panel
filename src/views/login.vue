@@ -1,3 +1,4 @@
+<!--  eslint-disable -->
 <template>
   <div class="flex-container">
     <div class="row">
@@ -12,42 +13,7 @@
       </div>
       <div class="col-lg-6 content right flex-column">
         <h3>Log In</h3>
-        <ul class="social">
-          <li>
-            <a
-              href="https://www.facebook.com/"
-              class="facebook"
-              style="background: #4867aa"
-            >
-              <font-awesome-icon
-                :icon="['fab', 'facebook-f']"
-                transform="shrink-3.5 down-1.6 right-1.25"
-                style="color: white; margin-right: 10px"
-                size="2x"
-              />
-              <span>Login With Facebook</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://accounts.google.com/signin/v2/identifier?continue=https%3A%2F%2Fmyaccount.google.com%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dcreate-account-button&flowName=GlifWebSignIn&flowEntry=AddSession"
-              class="google"
-              style="background: #db4437"
-            >
-              <font-awesome-icon
-                :icon="['fab', 'google']"
-                transform="shrink-3.5 down-1.6 right-1.25"
-                style="color: white; margin-right: 10px"
-                size="2x"
-              />
-              <span>Login With Google</span>
-            </a>
-          </li>
-        </ul>
-        <div class="or-login clearfix">
-          <span>Or</span>
-        </div>
-        <form class="form" @submit.prevent="LoginForm">
+        <form class="form" @submit.prevent="LoginForm" style="width: 400px">
           <div :class="{ invalid: emailValidaty === 'invalid' }">
             <label for="uname">E-mail</label>
             <input
@@ -69,32 +35,16 @@
           />
           <div>
             <router-link class="forget" :to="{ name: 'forgotpassword' }">
-              Forget Password
             </router-link>
           </div>
-          <div class="form-group form-check">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-              v-model="loginConfirm"
-            />
-            <label class="form-check-label" for="exampleCheck1">
-              Remember Me
-            </label>
-          </div>
+          <div class="form-group form-check"></div>
           <button>Login</button>
-          <div class="createNew">
-            Don't have an account?
-            <router-link class="signupLink" :to="{ name: 'signup' }">
-              Sign Up
-            </router-link>
-          </div>
         </form>
       </div>
     </div>
   </div>
 </template>
+<!--  eslint-disable -->
 
 <script>
 import jwt_decode from "jwt-decode";
