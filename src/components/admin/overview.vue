@@ -7,11 +7,11 @@
       <div class="col-12 col-md-5">
         <div class="d-flex justify-content-end">
           <div class="date date-from pl-4">
-            <span>15 sep 2021</span>
+            <span>15 sep 2020</span>
             <i class="fadeIn animated bx bx-calendar ml-5"></i>
           </div>
           <div class="date date-to ml-auto ml-md-5 pl-4">
-            <span>20 sep 2021</span>
+            <span>20 sep 2020</span>
             <i class="fadeIn animated bx bx-calendar ml-5"></i>
           </div>
         </div>

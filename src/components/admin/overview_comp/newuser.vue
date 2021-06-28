@@ -1,11 +1,10 @@
-<!-- eslint-disable -->
 <template>
   <div class="card">
     <div class="card-header">New User</div>
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>1.3M</p>
+          <p>1.2M</p>
           <p class="new-user-percent">-25%</p>
         </div>
         <div class="col-4">
@@ -83,7 +82,6 @@
     </ul>
   </div>
 </template>
-<!-- eslint-disable -->
 
 <style scoped>
 .overview .card {
