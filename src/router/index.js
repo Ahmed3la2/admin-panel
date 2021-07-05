@@ -4,12 +4,15 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import admin from "../views/admin/dashboard";
 import overview from "../components/admin/overview";
+import serviceProvider from "../components/admin/serviceProvider";
+import serv from "../components/admin/serviceProvider_comp/serv.vue";
+import serv_view from "../components/admin/serviceProvider_comp/serv_view.vue";
 import login from "../views/login";
 // import jwt_decode from 'jwt-decode';
 Vue.use(VueRouter);
 
 // const a = false;
-
+/* eslint-disable */
 const routes = [
   {
     path: "/",
@@ -21,6 +24,23 @@ const routes = [
         path: "",
         name: "",
         component: overview,
+      },
+      {
+        path: "serviceProvider",
+        name: "",
+        component: serviceProvider,
+        children:[
+        {
+          path: "",
+          name: "",
+          component: serv,
+        },
+        {
+          path: "/serv_view/:id",
+          name: "",
+          component: serv_view,
+        },
+      ]
       },
     ],
   },

@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+<!-- eslint-disable prettier/prettier -->
 <template>
   <div class="card">
     <div class="card-header">Top Service Provider</div>
@@ -5,15 +7,21 @@
       <li class="list-group-item" v-for="serve in servedata" :key="serve.id">
         <div class="row top-list">
           <div class="col-4">
-            <img width="60px" :src="serve.profilePic" alt="" />
+            <img width="60px" :src="serve.profilePic[0]" alt="" />
           </div>
           <div class="col-8">
-            <p>{{ serve.name }}</p>
+            <p>{{ serve.name[0] }}</p>
             <div class="stars">
               <i
                 class="bx bxs-star top"
-                v-for="index in 5"
-                v-bind:key="index"
+                v-for="(item, index) in serve.numberOfRatings"
+                :key="index"
+              ></i>
+              <i
+                style="color:#d6d6d6;"
+                class="bx bxs-star top"
+                v-for="(item, index) in (5 - serve.numberOfRatings)"
+                :key="index"
               ></i>
             </div>
           </div>
@@ -85,13 +93,14 @@ export default {
   created() {
     axios
       .get(
-        "https://masla7a.herokuapp.com/admin/control/service-providers?id=2",
+        "https://masla7a.herokuapp.com/admin/control/users//top-service-providers?date_from=Jul 20 2021 GMT+0200",
         {
           headers: { "x-auth-token": localStorage.getItem("token") },
         }
       )
       .then((res) => {
-        this.servedata = res.data.result.slice(0, 7);
+        this.servedata = res.data.topServiceProviders.slice(0, 6);
+        console.log(res.data.topServiceProviders);
       });
   },
 };

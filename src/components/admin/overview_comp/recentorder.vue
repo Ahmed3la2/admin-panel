@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <div class="card-header">Recent order</div>
-    <div class="card-body">
-      <table class="table">
+    <div class="card-body" style="padding:0">
+      <table class="table" style="height: 434px;">
         <tr>
           <td>Date</td>
           <td>Customer</td>
@@ -205,5 +205,12 @@ table tr .row img {
 }
 table tr .row p {
   padding-bottom: 15px;
+}
+table tr:first-child td{
+  border-bottom: 1px solid rgba(0,0,0,.125);
+} 
+td {
+  vertical-align: middle;
+  border: none;
 }
 </style>

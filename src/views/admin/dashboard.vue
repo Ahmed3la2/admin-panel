@@ -9,39 +9,46 @@
         <i class="bx bx-menu" id="btn"></i>
       </div>
       <ul class="nav_list">
-        <li class="mb-3">
-          <a href="#">
+        <router-link to="/" tag="li">
+          <a>
             <i class="bx bx-home bx-rotate-0 bx-none bx-flip-none"></i>
             <span class="links_name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
-        </li>
+        </router-link>
         <li class="text-center m-auto" id="t">
           <a href="#">
             <span class="links_name" style="margin-left: 25px">mangment</span>
           </a>
         </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="links_name">Analytics</span>
-          </a>
-          <span class="tooltip">Analytics</span>
-        </li>
-        <li>
-          <a href="#">
+        <router-link to="/serviceProvider" tag="li">
+          <a>
             <i class="bx bx-user"></i>
-            <span class="links_name">Customer</span>
+            <span class="links_name">service provider</span>
           </a>
-          <span class="tooltip">Customer</span>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-cart-alt"></i>
+          <span class="tooltip">service provider</span>
+        </router-link>
+        <router-link to="/Customers" tag="li">
+          <a>
+            <i class="fas fa-user-friends" style="margin: 0 10px 0 18px"></i>
+            <span class="links_name">Customers</span>
+          </a>
+          <span class="tooltip">Customers</span>
+        </router-link>
+        <router-link to="/ServiceCategory" tag="li">
+          <a>
+            <i class="fas fa-th-large" style="margin: 0 10px 0 18px"></i>
+            <span class="links_name">Service category</span>
+          </a>
+          <span class="tooltip">Service category</span>
+        </router-link>
+        <router-link to="/Order" tag="li">
+          <a>
+            <i class="fas fa-shopping-cart" style="margin: 0 10px 0 18px"></i>
             <span class="links_name">Order</span>
           </a>
           <span class="tooltip">Order</span>
-        </li>
+        </router-link>
         <li>
           <a href="#">
             <i class="bx bx-cog"></i>
@@ -95,6 +102,9 @@
   height: 50px;
   background-color: white;
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
+}
+li {
+  height: 42px !important;
 }
 .nav .profile-box {
   height: auto;
