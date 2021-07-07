@@ -53,23 +53,23 @@
           <div class="card-body">
             <ul>
               <li class="d-flex" style="width: 100%;">
-                <p class="flex-grow-2 w-50">Email</p>
-                <p class="w-50">AhemdAlaa@yahoo</p>
+                <p class="flex-grow-2" style="width:35%">Email</p>
+                <p style="width:60%">AhemdAlaa@yahoo.com</p>
               </li>
               <li class="d-flex" style="width: 100%;">
-                <p class="flex-grow-2 w-50">Total Order</p>
+                <p class="flex-grow-2 " style="width:35%">Total Order</p>
                 <p class="w-50">46</p>
               </li>
               <li class="d-flex" style="width: 100%;">
-                <p class="flex-grow-2 w-50">Age</p>
+                <p class="flex-grow-2"  style="width:35%">Age</p>
                 <p class="w-50">25</p>
               </li>
               <li class="d-flex" style="width: 100%;">
-                <p class="flex-grow-2 w-50">Phone</p>
+                <p class="flex-grow-2"  style="width:35%">Phone</p>
                 <p class="w-50">+20(12)987512352</p>
               </li>
               <li class="d-flex" style="width: 100%;">
-                <p class="flex-grow-2 w-50">Adress</p>
+                <p class="flex-grow-2" style="width:35%">Adress</p>
                 <p class="w-50">3 Khaled Ibn el Walid GESR EL SUEZ</p>
               </li>
             </ul>
@@ -99,12 +99,12 @@
                   <td>Date</td>
                   <td>Customer</td>
                   <td>Status</td>
-                  <td>Totsl</td>
+                  <td>Total</td>
                 </tr>
                 <tr v-for="index in 5" :key="index">
                   <td>
                       <div style="align-items: baseline;" class="d-flex">
-                        <input type="checkbox" name="" id="">
+                        <input class="mr-2" type="checkbox" name="" id="">
                         <p style="white-space: pre; margin: 0;"> OR-123214</p>
                       </div>
                   </td>
@@ -158,7 +158,7 @@
                 </li>
               </ul>
             </nav>
-          </div>
+           </div>
           </div>
       </div>
     </div>
@@ -167,10 +167,12 @@
 <!--  eslint-disable  -->
 
 <script>
+const exampleItems = [...Array(150).keys()].map(i => ({ id: (i+1), name: 'Item ' + (i+1) }));
 export default {
   data() {
     return {
       id: this.$route.params.id,
+     
     };
   },
 };
@@ -243,14 +245,13 @@ td {
 .card {
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
 }
-.card .card-footer nav {
+.card .card-footer .pagination {
   margin-left: auto;
-  width: 246px;
 }
-.card .card-footer nav li a {
+.card .card-footer .pagination li a {
   border: none;
 }
-.card .card-footer nav li a:hover {
+.card .card-footer .pagination li a:hover {
   background: #4791ff;
   border-radius: 38px;
   color: white;

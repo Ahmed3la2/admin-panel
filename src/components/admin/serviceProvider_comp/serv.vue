@@ -33,42 +33,50 @@
                   <td>Location</td>
                   <td>Phone</td>
                   <td>Rating</td>
+                  <td>Number of Order</td>
                   <td>Action</td>
                 </tr>
-                <tr v-for="index in 5" :key="index">
+                <tr v-for="(item,index) in pageOfItems" :key="index">
                   <td>
                     <div class="row top-list">
                       <div class="col-3">
                         <img
                           width="50px"
                           height="40px"
-                          src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
+                          :src="item.profilePic"
                           alt=""
                         />
                       </div>
                       <div class="col-8 text-center">
                         <div class="mt-2" style="width: 110px">
-                          <p>Natash Fuller</p>
+                          <p>{{item.name}}</p>
                         </div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <p>armando.lang@yahoo.com</p>
+                    <p>{{item.email}}</p>
                   </td>
-                  <td>congo</td>
+                  <td>{{item.city}}</td>
                   <td>+20(12) 987654320</td>
                   <td>
                     <div class="stars">
                       <i
                         class="bx bxs-star top"
-                        v-for="index in 5"
-                        v-bind:key="index"
+                        v-for="index in (item.numberOfRatings)"
+                        :key="index"
+                      ></i>
+                      <i
+                        class="bx bxs-star top"
+                        v-for="index in (5-item.numberOfRatings)"
+                        :key="index"
+                        style="color:#d8d3d3"
                       ></i>
                     </div>
                   </td>
+                  <td style="text-align:center">{{item.numberOfOrders}}</td>
                   <td class="d-flex" style="align-items: center">
-                    <router-link to="/serv_view/10" tag="div">
+                    <router-link :to="'/serv_view/'+ item._id" tag="div">
                       <i class="more fas fa-pencil-alt mr-3"></i>
                     </router-link>
                     <i class="more fas fa-ellipsis-h"></i>
@@ -78,7 +86,7 @@
             </div>
           </div>
           <div class="card-footer" style="background: white">
-            <nav aria-label="Page navigation example">
+            <!-- <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item">
                   <a class="page-link" href="#">Previous</a>
@@ -92,17 +100,50 @@
                   <a class="page-link" href="#">Next</a>
                 </li>
               </ul>
-            </nav>
+            </nav> -->
+            <div style="width: 400px;margin-left: auto;">
+             <jw-pagination style="display:block;" :pageSize=5 :items="AllServiceProvider" @changePage="onChangePage"></jw-pagination>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<!--  eslint-disable  -->
 
 <script>
-export default {};
+import axios from "axios";
+const exampleItems = [...Array(150).keys()].map((i) => ({
+  id: i + 1,
+  name: "Item " + (i + 1),
+}));
+export default {
+  data() {
+    return {
+      AllServiceProvider: null,
+      exampleItems,
+      pageOfItems: [],
+    };
+  },
+  methods: {
+    onChangePage(pageOfItems) {
+      this.pageOfItems = pageOfItems;
+    },
+  },
+   created() {
+     axios
+      .get(
+        "https://masla7a.herokuapp.com/admin/control/users/service-providers?sort=name_desc",
+        {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+        }
+      )
+      .then((res) => {
+        this.AllServiceProvider = res.data.serviceProviders;
+        console.log(res.data.serviceProviders);
+      });
+  },
+};
 </script>
 <!--  eslint-disable  -->
 
@@ -135,14 +176,19 @@ td {
 .card {
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
 }
-.card .card-footer nav {
-  margin-left: auto;
-  width: 246px;
+.card .card-footer .pagination {
+  /* margin-left: auto; */
+  width: 746px;
+  display: block !important;
 }
-.card .card-footer nav li a {
+.card .card-footer .pagination li a {
   border: none;
 }
-.card .card-footer nav li a:hover {
+.card .card-footer .pagination li.last {
+  border: none;
+  display: none;
+}
+.card .card-footer .paginations li a:hover {
   background: #4791ff;
   border-radius: 38px;
   color: white;
