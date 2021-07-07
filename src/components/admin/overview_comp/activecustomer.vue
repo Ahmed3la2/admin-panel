@@ -4,8 +4,8 @@
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>1.2M</p>
-          <p class="active-cus-percent">+25%</p>
+          <p>{{ numberOfActiveCustomers }}</p>
+          <p class="active-cus-percent">{{ percentageOfActiveCustomers }}%</p>
         </div>
         <div class="col-4">
           <apexchart
@@ -19,63 +19,18 @@
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
+      <li
+        class="list-group-item"
+        v-for="active in activeCustomers"
+        :key="active._id"
+      >
         <div class="row">
           <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
+            <img width="60px" alt="userImage" :src="active.profilePic" />
           </div>
           <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://pbs.twimg.com/profile_images/1237756875610914823/wM0Q57C3_400x400.jpg"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
+            <p>{{ active.name }}</p>
+            <p>{{ active.numberOfOrders }} orders</p>
           </div>
         </div>
       </li>
@@ -132,8 +87,13 @@
 </style>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
+    numberOfActiveCustomers: "",
+    percentageOfActiveCustomers: "",
+    activeCustomers: [],
     options: {
       colors: ["#00E396", "#FF004E"],
       chart: {
@@ -150,5 +110,20 @@ export default {
       ],
     },
   }),
+  created(){
+    axios.get('https://masla7a.herokuapp.com/admin/control/users/active-customers',
+    {
+       headers: { "x-auth-token": localStorage.getItem("token") },
+          params: {
+            date_from: 'Jul 9 2021 GMT+0200',
+            date_to:'Jul 24 2021 GMT+0200'
+          }
+    })
+    .then((res) => {
+        this.activeCustomers = res.data.activeCustomers;
+        this.numberOfActiveCustomers = res.data.numberOfActiveCustomers;
+        this.percentageOfActiveCustomers = res.data.percentageOfActiveCustomers;
+      });
+  }
 };
 </script>

@@ -1,18 +1,31 @@
 <template>
   <div class="overview">
-    <div class="row mb-5">
+    <div class="row mb-3">
       <div class="col-4 col-md-7">
         <h4 class="head">overview</h4>
       </div>
       <div class="col-12 col-md-5">
         <div class="d-flex justify-content-end">
-          <div class="date date-from pl-4">
-            <span>15 sep 2020</span>
-            <i class="fadeIn animated bx bx-calendar ml-5"></i>
+          <div class="form-group">
+            <label for="date">From</label>
+            <input
+              id="date"
+              type="date"
+              v-model="date"
+              class="form-control"
+              placeholder="MM/DD/YYYY"
+            />
           </div>
-          <div class="date date-to ml-auto ml-md-5 pl-4">
-            <span>20 sep 2020</span>
-            <i class="fadeIn animated bx bx-calendar ml-5"></i>
+
+          <div class="form-group ml-4">
+            <label for="date">To</label>
+            <input
+              id="date"
+              type="date"
+              v-model="date"
+              class="form-control"
+              placeholder="MM/DD/YYYY"
+            />
           </div>
         </div>
       </div>

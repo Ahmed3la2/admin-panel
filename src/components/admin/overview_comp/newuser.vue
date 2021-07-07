@@ -4,8 +4,8 @@
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>1.2M</p>
-          <p class="new-user-percent">-25%</p>
+          <p>{{numberOfNewUsers}}</p>
+          <p class="new-user-percent">{{percentageOfGrowing}}%</p>
         </div>
         <div class="col-4">
           <apexchart
@@ -19,69 +19,21 @@
       </div>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
+      <li class="list-group-item" v-for="user in users" :key="user._id">
         <div class="row">
           <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
+            <img width="60px" :src="user.profilePic" alt="userImage" />
           </div>
           <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://pbs.twimg.com/profile_images/1237756875610914823/wM0Q57C3_400x400.jpg"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8">
-            <p>Natash Fuller</p>
-            <p>2 hours ago</p>
+            <p>{{ user.name }}</p>
+            <p>{{ user.memberForHours }} hours ago</p>
           </div>
         </div>
       </li>
     </ul>
   </div>
 </template>
+<!-- eslint-disable -->
 
 <style scoped>
 .overview .card {
@@ -94,7 +46,6 @@
   color: rgb(107, 107, 107);
   font-weight: 500;
 }
-
 .overview .card .card-body .user-status p {
   margin: 0;
 }
@@ -132,9 +83,12 @@
 </style>
 
 <script>
-// import axios from 'axios';
+import axios from "axios";
 export default {
   data: () => ({
+    numberOfNewUsers: '',
+    percentageOfGrowing: '',
+    users: [],
     options: {
       colors: ["#FF004E", "#00E396"],
       chart: {
@@ -151,17 +105,20 @@ export default {
       ],
     },
   }),
-
-  // created(){
-  //    axios.post('http://masla7a.herokuapp.com/accounts/login',
-
-  //     {
-  //         email: "reem@yahoo.com",
-  //         password: "Reem_12345"
-  //     }
-
-  //    ).then(res=> console.log(res));
-
-  // }
+  created() {
+    axios
+      .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
+        headers: { "x-auth-token": localStorage.getItem("token") },
+        params: {
+          date_from: "jul 1 2021 GMT+0200",
+          date_to: "Jul 3 2021 GMT+0200",
+        },
+      })
+      .then((res) => {
+        this.users = res.data.users;
+        this.numberOfNewUsers = res.data.numberOfNewUsers;
+        this.percentageOfGrowing = res.data.percentageOfGrowing;
+      });
+  },
 };
 </script>

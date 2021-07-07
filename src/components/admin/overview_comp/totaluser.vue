@@ -3,8 +3,8 @@
     <div class="card-header">Total User</div>
     <div class="card-body" style="border-bottom: 1px solid #dfdfdf">
       <div class="row">
-        <div class="col-8 user-status">
-          <p>155K</p>
+        <div class="col-8 user-status" >
+          <p>{{totalUsers}}</p>
           <p>+25%</p>
         </div>
         <div class="col-4">
@@ -44,7 +44,6 @@
 .overview .card .card-body .apexcharts-canvas {
   margin-left: -64;
 }
-
 .overview .card .card-body .apexcharts-canvas {
   margin-left: -64px;
 }
@@ -85,8 +84,10 @@
 </style>
 
 <script>
+import axios from "axios";
 export default {
   data: () => ({
+    totalUsers:'',
     options: {
       colors: ["#4791FF", "#FFD950"],
       legend: {
@@ -112,7 +113,6 @@ export default {
       ],
       series: [100, 24],
     },
-
     coptions: {
       colors: ["#00E396", "#FF004E"],
       chart: {
@@ -129,5 +129,13 @@ export default {
       ],
     },
   }),
+  created() {
+    axios.get("https://masla7a.herokuapp.com/admin/control/users/customers", {
+      headers: { "x-auth-token": localStorage.getItem("token") },
+    })
+    .then((res) => {
+        this.totalUsers = res.data.usersCount;
+      });
+  },
 };
 </script>

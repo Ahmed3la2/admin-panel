@@ -2,104 +2,15 @@
   <div class="card">
     <div class="card-header">Top categories</div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
+      <li class="list-group-item" v-for="cat in categories" :key="cat._id">
         <div class="row top-prov">
           <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
+            <img width="60px" :src="cat.coverPhoto" alt="userImage" />
           </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row top-prov">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row top-prov">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row top-prov">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row top-prov">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-group-item">
-        <div class="row top-prov">
-          <div class="col-4">
-            <img
-              width="60px"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-              alt=""
-            />
-          </div>
-          <div class="col-8 text-center">
-            <div style="width: 110px">
-              <p>Natash Fuller</p>
-              <p class="">123 Order</p>
+          <div class="col-8">
+            <div >
+              <p class="name">{{ cat.name }}</p>
+              <p>{{ cat.numberOfOrders }} order</p>
             </div>
           </div>
         </div>
@@ -119,7 +30,6 @@
   color: rgb(107, 107, 107);
   font-weight: 500;
 }
-
 .overview .card .card-body .user-status p {
   margin: 0;
 }
@@ -142,7 +52,6 @@
   border-radius: 5px;
   height: 42px;
 }
-
 i.top {
   color: #f1f100;
 }
@@ -161,5 +70,26 @@ i.top {
 </style>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  data: () => ({
+    categories: [],
+  }),
+  created() {
+    axios
+      .get(
+        "https://masla7a.herokuapp.com/admin/control/categories/top-categories",
+        {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params: {
+            date_from: "Jul 18 2021 GMT+0200",
+            date_to: "Jul 21 2021 GMT+0200",
+          },
+        }
+      )
+      .then((res) => {
+        this.categories = res.data.categories;
+      });
+  },
+};
 </script>
