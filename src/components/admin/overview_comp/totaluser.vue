@@ -111,7 +111,7 @@ export default {
           },
         },
       ],
-      series: [100, 24],
+      series: [500, 40],
     },
     coptions: {
       colors: ["#00E396", "#FF004E"],
