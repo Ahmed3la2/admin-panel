@@ -12,7 +12,7 @@
         </tr>
 
         <tr v-for="order in orders" :key="order._id">
-          <td>{{ order.startsAt }}</td>
+          <td>{{ checkDate(order.startsAt) }}</td>
           <td>
             <div class="row top-list">
               <div class="col-3">
@@ -70,6 +70,13 @@ export default {
     return {
       orders: [],
     };
+  },
+  methods:{
+    checkDate(date){
+      console.log("Date here: ", new Date(date).toDateString());
+      return new Date(date).toDateString();
+    }
+
   },
   created() {
     axios.get(
