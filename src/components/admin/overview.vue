@@ -5,7 +5,7 @@
         <h4 class="head">overview</h4>
       </div>
       <div class="col-12 col-md-5">
-        <div class="d-flex justify-content-end">
+        <div class="d-flex">
           <div class="form-group">
             <label for="date">From</label>
             <input
@@ -15,6 +15,7 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
+            <p>{{dateFrom}}</p>
           </div>
 
           <div class="form-group ml-4">
@@ -26,6 +27,10 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
+            <p>{{dateTo}}</p>
+          </div>
+          <div class="form-group ml-3 ">
+            <input type="submit" Value="Apply" class="form-control apply">
           </div>
         </div>
       </div>
@@ -91,6 +96,13 @@
   border-radius: 5px;
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
   color: #828282;
+}
+.apply{
+  background: #407AEF;
+  color: white;
+  padding: 10px;
+  margin-top: 35px;
+  margin-right: 20px;
 }
 </style>
 
