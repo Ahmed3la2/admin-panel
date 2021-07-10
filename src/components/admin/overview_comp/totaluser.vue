@@ -143,10 +143,10 @@ export default {
         headers: { "x-auth-token": localStorage.getItem("token") },
       }
     );
-    this.totalUsers = customers.data.usersCount;
+    this.totalUsers = customers.data.customersCount;
     this.options.series = [
-      customers.data.usersCount,
-      providers.data.serviceProvidersCount,
+      customers.data.customersCount,
+      providers.data.serviceProvidersCount
     ];
   },
 };

@@ -30,7 +30,7 @@
             <p>{{dateTo}}</p>
           </div>
           <div class="form-group ml-3 ">
-            <input type="submit" Value="Apply" class="form-control apply">
+            <input type="button" Value="Apply" class="form-control apply">
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@
     <div class="row mb-5">
       <!-- New User -->
       <div class="col-12 col-md-6 col-lg-3">
-        <NewUser />
+        <NewUser v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Active Customer -->
       <div class="col-12 col-md-6 col-lg-3">
