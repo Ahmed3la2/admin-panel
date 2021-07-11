@@ -15,7 +15,7 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
-            <p>{{dateFrom}}</p>
+           
           </div>
 
           <div class="form-group ml-4">
@@ -27,7 +27,7 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
-            <p>{{dateTo}}</p>
+           
           </div>
           <div class="form-group ml-3 ">
             <input type="button" Value="Apply" class="form-control apply">
