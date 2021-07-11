@@ -29,9 +29,6 @@
             />
            
           </div>
-          <div class="form-group ml-3 ">
-            <input type="button" Value="Apply" class="form-control apply">
-          </div>
         </div>
       </div>
     </div>
@@ -97,13 +94,7 @@
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
   color: #828282;
 }
-.apply{
-  background: #407AEF;
-  color: white;
-  padding: 10px;
-  margin-top: 35px;
-  margin-right: 20px;
-}
+
 </style>
 
 <script>
