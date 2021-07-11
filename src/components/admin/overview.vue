@@ -42,37 +42,37 @@
       </div>
       <!-- Active Customer -->
       <div class="col-12 col-md-6 col-lg-3">
-        <ActiveCustomer />
+        <ActiveCustomer v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- total Users -->
       <div class="col-12 col-md-6 col-lg-3">
-        <TotalUser />
+        <TotalUser v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- total profit -->
       <div class="col-12 col-md-6 col-lg-3">
-        <Totalprofit />
+        <Totalprofit v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
 
     <div class="row mb-5">
       <!-- Application Activity -->
       <div class="col-12 col-md-9">
-        <AppActive />
+        <AppActive v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Top Service Provider -->
       <div class="col-12 col-md-3">
-        <Topserveprovider />
+        <Topserveprovider v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
 
     <div class="row">
       <!-- Recent Order -->
       <div class="col-12 col-md-9">
-        <RecentOrder />
+        <RecentOrder v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Top categories -->
       <div class="col-12 col-md-3">
-        <TopCategoreis />
+        <TopCategoreis v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
   </div>
