@@ -47,6 +47,7 @@
               </div>
             </div>
           </td>
+
           <td>
             <i
               :class="{
@@ -72,6 +73,7 @@
               >{{ order.status }}</span
             >
           </td>
+
           <td class="font-weight-bold">${{ order.price }}</td>
         </tr>
       </table>
@@ -93,6 +95,11 @@ export default {
       return new Date(date).toDateString();
     },
   },
+ /*  color() {
+    if(this.order.status == "pending"){
+      
+    }
+  }, */
   created() {
     axios
       .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {

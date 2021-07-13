@@ -85,6 +85,7 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["dateFrom", "dateTo"],
   data: () => ({
     numberOfNewUsers: "",
     percentageOfGrowing: "",
@@ -105,13 +106,62 @@ export default {
       ],
     },
   }),
+  methods: {
+    callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params: {
+            ...queryParam,
+          },
+        })
+        .then((res) => {
+          this.users = res.data.users.slice(0, 4);
+          this.numberOfNewUsers = res.data.numberOfNewUsers;
+          this.percentageOfGrowing = res.data.percentageOfGrowing;
+        });
+    },
+  },
   created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function (val) {
+      this.callApi();
+    },
+    dateTo: function (val) {
+      this.callApi();
+    },
+  },
+  async onApply() {
+    console.log(this.dateFrom);
+    console.log(this.dateTo);
+    let queryParam = {};
+    if (this.dateFrom) {
+      queryParam["date_from"] = this.dateFrom;
+    }
+    if (this.dateTo) {
+      queryParam["date_to"] = this.dateTo;
+    }
+
     axios
       .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
         headers: { "x-auth-token": localStorage.getItem("token") },
+        params: {
+          ...queryParam,
+        },
       })
       .then((res) => {
-        this.users = res.data.users.slice(0, 4);
+        this.users = res.data.users;
+        console.log(this.users);
         this.numberOfNewUsers = res.data.numberOfNewUsers;
         this.percentageOfGrowing = res.data.percentageOfGrowing;
       });

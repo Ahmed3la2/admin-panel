@@ -129,13 +129,25 @@ export default {
       ],
     },
   }),
-  created() {
-    axios.get("https://masla7a.herokuapp.com/admin/control/users/customers", {
-      headers: { "x-auth-token": localStorage.getItem("token") },
-    })
-    .then((res) => {
-        this.totalUsers = res.data.usersCount;
-      });
+
+  async beforeCreate() {
+    const customers = await axios.get(
+      "https://masla7a.herokuapp.com/admin/control/users/customers",
+      {
+        headers: { "x-auth-token": localStorage.getItem("token") },
+      }
+    );
+    const providers = await axios.get(
+      "https://masla7a.herokuapp.com/admin/control/users/service-providers",
+      {
+        headers: { "x-auth-token": localStorage.getItem("token") },
+      }
+    );
+    this.totalUsers = customers.data.customersCount;
+    this.options.series = [
+      customers.data.customersCount,
+      providers.data.serviceProvidersCount
+    ];
   },
 };
 </script>
