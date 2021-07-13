@@ -64,10 +64,7 @@ export default {
         .post("https://masla7a.herokuapp.com/accounts/login", this.login)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
-          localStorage.setItem(
-            "parsedToken",
-            JSON.stringify(jwt_decode(res.data.token))
-          );
+          localStorage.setItem("parsedToken",JSON.stringify(jwt_decode(res.data.token)));
         });
 
       console.log(JSON.parse(localStorage.getItem("parsedToken")).role);

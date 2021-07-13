@@ -32,7 +32,6 @@
                   <td>Email</td>
                   <td>Location</td>
                   <td>Phone</td>
-                  <td>Rating</td>
                   <td>Number of Order</td>
                   <td>Action</td>
                 </tr>
@@ -58,25 +57,10 @@
                     <p>{{item.email}}</p>
                   </td>
                   <td>{{item.city}}</td>
-                  <td>{{item.phone}}</td>
-                  <td>
-                    <div class="stars" :title="item.averageRating">
-                      <i
-                        class="bx bxs-star top"
-                        v-for="index in (Math.floor(item.averageRating))"
-                        :key="index"
-                      ></i>
-                      <i
-                        class="bx bxs-star top"
-                        v-for="index in (5-Math.floor(item.averageRating))"
-                        :key="index"
-                        style="color:#d8d3d3"
-                      ></i>
-                    </div>
-                  </td>
+                  <td>{{item.phone_number}}</td>
                   <td style="text-align:center">{{item.numberOfOrders}}</td>
                   <td class="d-flex" style="align-items: center">
-                    <router-link :to="'/serv_view/'+ item._id" tag="div">
+                    <router-link :to="'/cus_view/'+ item._id" tag="div">
                       <i class="more fas fa-pencil-alt mr-3"></i>
                     </router-link>
                     <i class="more fas fa-ellipsis-h"></i>
@@ -87,7 +71,7 @@
           </div>
           <div class="card-footer" style="background: white">
             <div style="width: 17rem;margin-left: auto;">
-             <jw-pagination style="display:block;" :pageSize=5 :items="AllServiceProvider" @changePage="onChangePage"></jw-pagination>
+             <jw-pagination style="display:block;" :pageSize=4 :items="Allcustomer" @changePage="onChangePage"></jw-pagination>
             </div>
           </div>
         </div>
@@ -101,7 +85,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      AllServiceProvider: null,
+      Allcustomer: null,
       pageOfItems: [],
     };
   },
@@ -113,13 +97,14 @@ export default {
   created() {
     axios
       .get(
-        "https://masla7a.herokuapp.com/admin/control/users/service-providers?sort=name_desc",
+        "https://masla7a.herokuapp.com/admin/control/users/customers?sort=name_asc",
         {
           headers: { "x-auth-token": localStorage.getItem("token") },
         }
       )
       .then((res) => {
-        this.AllServiceProvider = res.data.serviceProviders;
+        this.Allcustomer = res.data.customers;
+        console.log(res.data.customers)
       });
   },
 };

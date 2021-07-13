@@ -1,7 +1,7 @@
 <template>
   <div class="card">
-    <div class="card-header">Recent order</div>
-    <div class="card-body">
+    <div class="card-header" style="border-bottom:none;">Recent order</div>
+    <div class="card-body" style="padding: 0;">
       <table class="table">
         <tr>
           <td>Date</td>
@@ -78,7 +78,7 @@ export default {
         headers: { "x-auth-token": localStorage.getItem("token") },
       })
       .then((res) => {
-        this.orders = res.data.orders;
+        this.orders = res.data.orders.slice(0,5);
       });
   },
 };

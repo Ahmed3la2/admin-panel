@@ -1,5 +1,5 @@
 <template>
-  <div class="overview">
+  <div class="overview" style="background-color: rgb(240, 240, 240);">
     <div class="row mb-3">
       <div class="col-4 col-md-7">
         <h4 class="head">overview</h4>

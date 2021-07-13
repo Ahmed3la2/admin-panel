@@ -28,14 +28,14 @@
           </a>
           <span class="tooltip">service provider</span>
         </router-link>
-        <router-link to="/Customers" tag="li">
+        <router-link to="/customers" tag="li">
           <a>
             <i class="fas fa-user-friends" style="margin: 0 10px 0 18px"></i>
             <span class="links_name">Customers</span>
           </a>
           <span class="tooltip">Customers</span>
         </router-link>
-        <router-link to="/ServiceCategory" tag="li">
+        <router-link to="/Category" tag="li">
           <a>
             <i class="fas fa-th-large" style="margin: 0 10px 0 18px"></i>
             <span class="links_name">Service category</span>
