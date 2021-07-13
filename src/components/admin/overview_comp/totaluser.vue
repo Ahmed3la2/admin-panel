@@ -3,8 +3,8 @@
     <div class="card-header">Total User</div>
     <div class="card-body" style="border-bottom: 1px solid #dfdfdf">
       <div class="row">
-        <div class="col-8 user-status">
-          <p>{{ totalUsers }}</p>
+        <div class="col-8 user-status" >
+          <p>{{totalUsers}}</p>
           <p>+25%</p>
         </div>
         <div class="col-4">
@@ -87,7 +87,7 @@
 import axios from "axios";
 export default {
   data: () => ({
-    totalUsers: "",
+    totalUsers:'',
     options: {
       colors: ["#4791FF", "#FFD950"],
       legend: {
@@ -111,7 +111,7 @@ export default {
           },
         },
       ],
-      series: [0, 0],
+      series: [100, 24],
     },
     coptions: {
       colors: ["#00E396", "#FF004E"],
@@ -129,25 +129,13 @@ export default {
       ],
     },
   }),
-
-  async beforeCreate() {
-    const customers = await axios.get(
-      "https://masla7a.herokuapp.com/admin/control/users/customers",
-      {
-        headers: { "x-auth-token": localStorage.getItem("token") },
-      }
-    );
-    const providers = await axios.get(
-      "https://masla7a.herokuapp.com/admin/control/users/service-providers",
-      {
-        headers: { "x-auth-token": localStorage.getItem("token") },
-      }
-    );
-    this.totalUsers = customers.data.usersCount;
-    this.options.series = [
-      customers.data.usersCount,
-      providers.data.serviceProvidersCount,
-    ];
+  created() {
+    axios.get("https://masla7a.herokuapp.com/admin/control/users/customers", {
+      headers: { "x-auth-token": localStorage.getItem("token") },
+    })
+    .then((res) => {
+        this.totalUsers = res.data.usersCount;
+      });
   },
 };
 </script>

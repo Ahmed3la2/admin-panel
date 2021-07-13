@@ -146,13 +146,10 @@ export default {
       this.Reader.addEventListener("load", function () {
         var x = this;
         document.querySelector(".content").style.display = "none";
-        document.querySelector(
-          ".img"
-        ).style.backgroundImage = `url('${x.result}')`;
+        document.querySelector(".img").style.backgroundImage = `url('${x.result}')`;
         localStorage.setItem("t", x.result);
       });
       this.Reader.readAsDataURL(this.cateIconimg);
-      this.cateIcon = localStorage.getItem("t");
     },
 
     onChangecateImage: function (event) {
@@ -161,13 +158,10 @@ export default {
       this.imageReader.addEventListener("load", function () {
         var x = this;
         document.querySelector(".contentImage").style.display = "none";
-        document.querySelector(
-          ".imgImage"
-        ).style.backgroundImage = `url('${x.result}')`;
+        document.querySelector(".imgImage").style.backgroundImage = `url('${x.result}')`;
         localStorage.setItem("y", x.result);
       });
       this.imageReader.readAsDataURL(this.cateimage);
-      this.image = localStorage.getItem("y");
     },
     addCategory: function () {
       const formdata = new FormData();

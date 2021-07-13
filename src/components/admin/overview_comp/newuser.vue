@@ -4,8 +4,8 @@
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>{{numberOfNewUsers}}</p>
-          <p class="new-user-percent">{{percentageOfGrowing}}%</p>
+          <p>{{ numberOfNewUsers }}</p>
+          <p class="new-user-percent">{{ percentageOfGrowing }}%</p>
         </div>
         <div class="col-4">
           <apexchart
@@ -86,8 +86,8 @@
 import axios from "axios";
 export default {
   data: () => ({
-    numberOfNewUsers: '',
-    percentageOfGrowing: '',
+    numberOfNewUsers: "",
+    percentageOfGrowing: "",
     users: [],
     options: {
       colors: ["#FF004E", "#00E396"],
@@ -109,13 +109,9 @@ export default {
     axios
       .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
         headers: { "x-auth-token": localStorage.getItem("token") },
-        params: {
-          date_from: "jul 1 2021 GMT+0200",
-          date_to: "Jul 3 2021 GMT+0200",
-        },
       })
       .then((res) => {
-        this.users = res.data.users;
+        this.users = res.data.users.slice(0, 4);
         this.numberOfNewUsers = res.data.numberOfNewUsers;
         this.percentageOfGrowing = res.data.percentageOfGrowing;
       });

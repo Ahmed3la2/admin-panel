@@ -1,5 +1,5 @@
 <template>
-  <div class="overview" style="background-color: rgb(240, 240, 240);">
+  <div class="overview" style="background-color: rgb(240, 240, 240)">
     <div class="row mb-3">
       <div class="col-4 col-md-7">
         <h4 class="head">overview</h4>
@@ -9,6 +9,7 @@
           <div class="form-group">
             <label for="date">From</label>
             <input
+              style="color: #afadad; font-size: 14px; font-weight: 600"
               id="date"
               type="date"
               v-model="dateFrom"
@@ -20,6 +21,7 @@
           <div class="form-group ml-4">
             <label for="date">To</label>
             <input
+              style="color: #afadad; font-size: 14px; font-weight: 600"
               id="date"
               type="date"
               v-model="dateTo"
@@ -116,11 +118,11 @@ export default {
     TopCategoreis,
     RecentOrder,
   },
-  data(){
-    return{
-      dateFrom:'',
-      dateTo:'',
-    }
+  data() {
+    return {
+      dateFrom: "",
+      dateTo: "",
+    };
   },
 };
 </script>

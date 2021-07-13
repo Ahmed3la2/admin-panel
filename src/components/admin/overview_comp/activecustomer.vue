@@ -110,20 +110,23 @@ export default {
       ],
     },
   }),
-  created(){
-    axios.get('https://masla7a.herokuapp.com/admin/control/users/active-customers',
-    {
-       headers: { "x-auth-token": localStorage.getItem("token") },
+  created() {
+    axios
+      .get(
+        "https://masla7a.herokuapp.com/admin/control/users/active-customers",
+        {
+          headers: { "x-auth-token": localStorage.getItem("token") },
           params: {
-            date_from: 'Jul 9 2021 GMT+0200',
-            date_to:'Jul 24 2021 GMT+0200'
-          }
-    })
-    .then((res) => {
-        this.activeCustomers = res.data.activeCustomers;
+            date_from: "Jul 9 2021 GMT+0200",
+            date_to: "Jul 24 2021 GMT+0200",
+          },
+        }
+      )
+      .then((res) => {
+        this.activeCustomers = res.data.activeCustomers.slice(0, 4);
         this.numberOfActiveCustomers = res.data.numberOfActiveCustomers;
         this.percentageOfActiveCustomers = res.data.percentageOfActiveCustomers;
       });
-  }
+  },
 };
 </script>

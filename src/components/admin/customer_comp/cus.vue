@@ -3,7 +3,7 @@
   <div>
     <div class="row p-4 head">
       <div class="col-12 col-md-8">
-        <h4>Service Provider</h4>
+        <h4>Customer</h4>
       </div>
       <div class="col-12 col-md-4">
         <div class="search-div">

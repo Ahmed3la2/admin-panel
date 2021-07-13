@@ -1,7 +1,7 @@
 <template>
   <div class="card">
-    <div class="card-header" style="border-bottom:none;">Recent order</div>
-    <div class="card-body" style="padding: 0;">
+    <div class="card-header" style="border-bottom: none">Recent order</div>
+    <div class="card-body" style="padding: 0">
       <table class="table">
         <tr>
           <td>Date</td>
@@ -49,12 +49,28 @@
           </td>
           <td>
             <i
+              :class="{
+                pending: order.status == 'pending',
+                compelted: order.status == 'completed',
+                canceled: order.status == 'canceled',
+              }"
               class="fas fa-circle"
-              style="color: #06d9a6; font-weight: bold"
+              style="
+                color: #06d9a6;
+                font-weight: bold;
+                font-size: 8px;
+                margin-right: 9px;
+              "
             ></i>
-            <span style="color: #06d9a6; font-weight: bold">{{
-              order.status
-            }}</span>
+            <span
+              :class="{
+                pending: order.status == 'pending',
+                compelted: order.status == 'completed',
+                canceled: order.status == 'canceled',
+              }"
+              style="color: #06d9a6; font-weight: bold;font-size:14px "
+              >{{ order.status }}</span
+            >
           </td>
           <td class="font-weight-bold">${{ order.price }}</td>
         </tr>
@@ -71,21 +87,19 @@ export default {
       orders: [],
     };
   },
-  methods:{
-    checkDate(date){
+  methods: {
+    checkDate(date) {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
-    }
-
+    },
   },
   created() {
-    axios.get(
-      "https://masla7a.herokuapp.com/admin/control/orders/recent-orders",
-      {
+    axios
+      .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
         headers: { "x-auth-token": localStorage.getItem("token") },
       })
       .then((res) => {
-        this.orders = res.data.orders.slice(0,5);
+        this.orders = res.data.orders.slice(0, 5);
       });
   },
 };
@@ -100,5 +114,14 @@ table tr .row img {
 }
 table tr .row p {
   padding-bottom: 15px;
+}
+.pending {
+  color: orange !important;
+}
+.compelted {
+  color: #06d9a6 !important;
+}
+.canceled {
+  color: red !important;
 }
 </style>
