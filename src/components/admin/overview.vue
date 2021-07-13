@@ -11,7 +11,7 @@
             <input
               id="date"
               type="date"
-              v-model="date"
+              v-model="dateFrom"
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
@@ -22,7 +22,7 @@
             <input
               id="date"
               type="date"
-              v-model="date"
+              v-model="dateTo"
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
@@ -116,13 +116,11 @@ export default {
     TopCategoreis,
     RecentOrder,
   },
-
-  created() {
-    // axios.get('https://masla7a.herokuapp.com/admin/control/service-providers', {
-    //   headers:{
-    //       'x-auth-token': localStorage.getItem('token')
-    //   }
-    // }).then(res => console.log(res.data))
+  data(){
+    return{
+      dateFrom:'',
+      dateTo:'',
+    }
   },
 };
 </script>
