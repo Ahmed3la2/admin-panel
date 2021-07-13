@@ -5,7 +5,7 @@
         <h4 class="head">overview</h4>
       </div>
       <div class="col-12 col-md-5">
-        <div class="d-flex justify-content-end">
+        <div class="d-flex">
           <div class="form-group">
             <label for="date">From</label>
             <input
@@ -15,6 +15,7 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
+           
           </div>
 
           <div class="form-group ml-4">
@@ -26,6 +27,7 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
+           
           </div>
         </div>
       </div>
@@ -33,41 +35,41 @@
     <div class="row mb-5">
       <!-- New User -->
       <div class="col-12 col-md-6 col-lg-3">
-        <NewUser />
+        <NewUser v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Active Customer -->
       <div class="col-12 col-md-6 col-lg-3">
-        <ActiveCustomer />
+        <ActiveCustomer v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- total Users -->
       <div class="col-12 col-md-6 col-lg-3">
-        <TotalUser />
+        <TotalUser v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- total profit -->
       <div class="col-12 col-md-6 col-lg-3">
-        <Totalprofit />
+        <Totalprofit v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
 
     <div class="row mb-5">
       <!-- Application Activity -->
       <div class="col-12 col-md-9">
-        <AppActive />
+        <AppActive v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Top Service Provider -->
       <div class="col-12 col-md-3">
-        <Topserveprovider />
+        <Topserveprovider v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
 
     <div class="row">
       <!-- Recent Order -->
       <div class="col-12 col-md-9">
-        <RecentOrder />
+        <RecentOrder v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- Top categories -->
       <div class="col-12 col-md-3">
-        <TopCategoreis />
+        <TopCategoreis v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
   </div>
@@ -92,6 +94,7 @@
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
   color: #828282;
 }
+
 </style>
 
 <script>

@@ -4,8 +4,8 @@
     <div class="card-body">
       <div class="row">
         <div class="col-8 user-status">
-          <p>{{numberOfNewUsers}}</p>
-          <p class="new-user-percent">{{percentageOfGrowing}}%</p>
+          <p>{{ numberOfNewUsers }}</p>
+          <p class="new-user-percent">{{ percentageOfGrowing }}%</p>
         </div>
         <div class="col-4">
           <apexchart
@@ -85,9 +85,10 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["dateFrom", "dateTo"],
   data: () => ({
-    numberOfNewUsers: '',
-    percentageOfGrowing: '',
+    numberOfNewUsers: "",
+    percentageOfGrowing: "",
     users: [],
     options: {
       colors: ["#FF004E", "#00E396"],
@@ -105,13 +106,58 @@ export default {
       ],
     },
   }),
+  methods: {
+    callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params: {
+            ...queryParam,
+          },
+        })
+        .then((res) => {
+          this.users = res.data.users;
+          this.numberOfNewUsers = res.data.numberOfNewUsers;
+          this.percentageOfGrowing = res.data.percentageOfGrowing;
+        });
+    },
+  },
   created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function (val) {
+      this.callApi();
+    },
+    dateTo: function (val) {
+    console.log("🚀 ~ file: newuser.vue ~ line 141 ~ val", val)
+      this.callApi();
+    },
+  },
+  async onApply() {
+    console.log(this.dateFrom);
+    console.log(this.dateTo);
+    let queryParam = {};
+    if (this.dateFrom) {
+      queryParam["date_from"] = this.dateFrom;
+    }
+    if (this.dateTo) {
+      queryParam["date_to"] = this.dateTo;
+    }
+
     axios
       .get("https://masla7a.herokuapp.com/admin/control/users/new-users", {
         headers: { "x-auth-token": localStorage.getItem("token") },
         params: {
-          date_from: "jul 1 2021 GMT+0200",
-          date_to: "Jul 3 2021 GMT+0200",
+          ...queryParam,
         },
       })
       .then((res) => {

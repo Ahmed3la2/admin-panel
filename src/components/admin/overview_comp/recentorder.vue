@@ -47,15 +47,12 @@
               </div>
             </div>
           </td>
+
           <td>
-            <i
-              class="fas fa-circle"
-              style="color: #06d9a6; font-weight: bold"
-            ></i>
-            <span style="color: #06d9a6; font-weight: bold">{{
-              order.status
-            }}</span>
+            <i class="fas fa-circle" style="color: #06d9a6; font-weight: bold"></i>
+            <span style="color: #06d9a6; font-weight: bold">{{order.status}}</span>
           </td>
+
           <td class="font-weight-bold">${{ order.price }}</td>
         </tr>
       </table>
@@ -71,17 +68,20 @@ export default {
       orders: [],
     };
   },
-  methods:{
-    checkDate(date){
+  methods: {
+    checkDate(date) {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
-    }
-
+    },
   },
+ /*  color() {
+    if(this.order.status == "pending"){
+      
+    }
+  }, */
   created() {
-    axios.get(
-      "https://masla7a.herokuapp.com/admin/control/orders/recent-orders",
-      {
+    axios
+      .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
         headers: { "x-auth-token": localStorage.getItem("token") },
       })
       .then((res) => {
