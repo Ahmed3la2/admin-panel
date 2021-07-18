@@ -7,6 +7,7 @@
       <div class="col-12 col-md-5">
         <div class="d-flex">
           <div class="form-group">
+            <span>From</span>
             <input
               style="color: #afadad; font-size: 14px; font-weight: 600"
               id="date"
@@ -19,7 +20,7 @@
           </div>
 
           <div class="form-group ml-4">
-
+            <span>To</span>
             <input
               style="color: #afadad; font-size: 14px; font-weight: 600"
               id="date"
@@ -95,7 +96,9 @@
   box-shadow: 0 0 12px rgb(0 0 0 / 26%);
   color: #828282;
 }
-
+span{
+  font-weight: bold;
+}
 </style>
 
 <script>

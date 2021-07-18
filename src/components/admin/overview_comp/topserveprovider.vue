@@ -76,24 +76,62 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["dateFrom", "dateTo"],
   data: () => ({
     servedata: [],
   }),
-  created() {
-    axios
-      .get(
-        "https://masla7a.herokuapp.com/admin/control/users//top-service-providers",
-        {
+  methods: {
+    callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/users//top-service-providers", {
           headers: { "x-auth-token": localStorage.getItem("token") },
           params: {
-            date_from: 'Jul 20 2021 GMT+0200'
-          }
-        }
-      )
+            ...queryParam,
+          },
+        })
+        .then((res) => {
+          this.servedata = res.data.topServiceProviders.slice(0, 4);
+        });
+    },
+  },
+  created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function (val) {
+      this.callApi();
+    },
+    dateTo: function (val) {
+      this.callApi();
+    },
+  },
+  async onApply() {
+    let queryParam = {};
+    if (this.dateFrom) {
+      queryParam["date_from"] = this.dateFrom;
+    }
+    if (this.dateTo) {
+      queryParam["date_to"] = this.dateTo;
+    }
+
+    axios
+      .get("https://masla7a.herokuapp.com/admin/control/users//top-service-providers", {
+        headers: { "x-auth-token": localStorage.getItem("token") },
+        params: {
+          ...queryParam,
+        },
+      })
       .then((res) => {
         this.servedata = res.data.topServiceProviders;
       });
-    
   },
 };
 </script>

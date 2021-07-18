@@ -1,5 +1,39 @@
 <template>
   <div class="p-4">
+         <div class="row mb-3 mt-4">
+      <div class="col-4 col-md-7">
+        <h4 class="head">All orders</h4>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="d-flex">
+          <div class="form-group">
+            <span>From</span>
+            <input
+              style="color: #afadad; font-size: 14px; font-weight: 600"
+              id="date"
+              type="date"
+              v-model="dateFrom"
+              class="form-control"
+              placeholder="MM/DD/YYYY"
+            />
+           
+          </div>
+
+          <div class="form-group ml-4">
+            <span>To</span>
+            <input
+              style="color: #afadad; font-size: 14px; font-weight: 600"
+              id="date"
+              type="date"
+              v-model="dateTo"
+              class="form-control"
+              placeholder="MM/DD/YYYY"
+            />
+           
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <div
         class="card-header"
@@ -117,37 +151,82 @@ import axios from "axios";
 export default {
   data() {
     return {
+      dateFrom: "",
+      dateTo: "",
       orders: [],
     };
   },
   methods: {
-    checkDate(date) {
+     checkDate(date) {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
     },
-  },
-  /*  color() {
-    if(this.order.status == "pending"){
-      
-    }
-  }, */
-  created() {
-    axios
-      .get(
-        "https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc",
-        {
+     callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+        console.log("🚀 ~ file: orders.vue ~ line 167 ~ callApi ~ queryParam", queryParam)
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc", {
           headers: { "x-auth-token": localStorage.getItem("token") },
-        }
-      )
-      .then((res) => {
-        this.orders = res.data.orders.slice(0, 5);
-        console.log(res.data);
-      });
+          params: {
+            ...queryParam,
+          },
+        })
+        .then((res) => {
+          this.orders = res.data.orders.slice(0, 6);
+        });
+    },
   },
+  created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function (val) {
+      this.callApi();
+      console.log(val);
+    },
+    dateTo: function (val) {
+      this.callApi();
+      console.log(val);
+    },
+  },
+  // async onApply() {
+  //   let queryParam = {};
+  //   if (this.dateFrom) {
+  //     queryParam["date_from"] = this.dateFrom;
+  //   }
+  //   if (this.dateTo) {
+  //     queryParam["date_to"] = this.dateTo;
+  //   }
+
+  //   axios
+  //     .get("https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc", {
+  //       headers: { "x-auth-token": localStorage.getItem("token") },
+  //       params: {
+  //         ...queryParam,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       this.orders = res.data.orders.slice(0, 5);
+  //     });
+  // },
 };
 </script>
 
 <style scoped>
+span{
+  font-weight: bold;
+}
+.head {
+  font-weight: bolder;
+}
+
 td {
   vertical-align: middle;
 }

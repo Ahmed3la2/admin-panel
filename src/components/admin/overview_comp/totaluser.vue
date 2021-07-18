@@ -146,7 +146,7 @@ export default {
     this.totalUsers = customers.data.customersCount;
     this.options.series = [
       customers.data.customersCount,
-      providers.data.serviceProvidersCount
+      providers.data.serviceProvidersCount,
     ];
   },
 };

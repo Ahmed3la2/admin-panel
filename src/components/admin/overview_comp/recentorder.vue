@@ -84,6 +84,7 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["dateFrom", "dateTo"],
   data() {
     return {
       orders: [],
@@ -94,19 +95,56 @@ export default {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
     },
+    callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params: {
+            ...queryParam,
+          },
+        })
+        .then((res) => {
+          this.orders = res.data.orders.slice(0, 4);
+        });
+    },
   },
- /*  color() {
-    if(this.order.status == "pending"){
-      
-    }
-  }, */
   created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function () {
+      this.callApi();
+    },
+    dateTo: function () {
+      this.callApi();
+    },
+  },
+  async onApply() {
+    let queryParam = {};
+    if (this.dateFrom) {
+      queryParam["date_from"] = this.dateFrom;
+    }
+    if (this.dateTo) {
+      queryParam["date_to"] = this.dateTo;
+    }
+
     axios
       .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
         headers: { "x-auth-token": localStorage.getItem("token") },
+        params: {
+          ...queryParam,
+        },
       })
       .then((res) => {
-        this.orders = res.data.orders.slice(0, 5);
+        this.orders = res.data.orders;
       });
   },
 };
