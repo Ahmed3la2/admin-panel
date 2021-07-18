@@ -26,7 +26,6 @@
 <script>
 export default {
   data: () =>
-    //  test:[4, 3, 10, 9, 29, 19, 22, 9, 12, 7, 19, 5, 13, 9, 17, 2,],
     ({
       series: [
         {

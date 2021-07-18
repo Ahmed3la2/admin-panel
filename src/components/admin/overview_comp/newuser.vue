@@ -92,6 +92,9 @@ export default {
     users: [],
     options: {
       colors: ["#FF004E", "#00E396"],
+      stroke: {
+          curve: 'smooth',
+        },
       chart: {
         id: "vuechart-example",
         sparkline: {
@@ -142,8 +145,6 @@ export default {
     },
   },
   async onApply() {
-    console.log(this.dateFrom);
-    console.log(this.dateTo);
     let queryParam = {};
     if (this.dateFrom) {
       queryParam["date_from"] = this.dateFrom;
@@ -161,7 +162,6 @@ export default {
       })
       .then((res) => {
         this.users = res.data.users;
-        console.log(this.users);
         this.numberOfNewUsers = res.data.numberOfNewUsers;
         this.percentageOfGrowing = res.data.percentageOfGrowing;
       });
