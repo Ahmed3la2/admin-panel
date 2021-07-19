@@ -1,8 +1,8 @@
 <template>
   <div class="overview" style="background-color: rgb(240, 240, 240)">
-    <div class="row mb-3 mt-4">
+    <div class="row">
       <div class="col-4 col-md-7">
-        <h4 class="head">overview</h4>
+        <h4 class="head mt-3">overview</h4>
       </div>
       <div class="col-12 col-md-5">
         <div class="d-flex">

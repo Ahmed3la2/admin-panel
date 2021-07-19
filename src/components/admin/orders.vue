@@ -66,98 +66,89 @@
       </div>
       <div class="card-body" style="padding: 0">
         <table class="table">
-          <tr>
-            <td>id</td>
-            <td>Date</td>
-            <td>Customer</td>
-            <td>Service Provider</td>
-            <td>Category</td>
-            <td>location</td>
-            <td>Status</td>
-            <td>Total</td>
-          </tr>
+          <thead>
+            <tr>
+              <td>iD</td>
+              <td>Date</td>
+              <td>Customer</td>
+              <td>Service Provider</td>
+              <td>Category</td>
+              <td>location</td>
+              <td>Status</td>
+              <td>Total</td>
+            </tr>
+          </thead>
+          <tbody v-for="order in orders" :key="order._id">
+            <tr class="justify-content-center">
+              <td>
+                OR-{{ order._id.slice(0, 10) }} <br />
+                {{ order._id.slice(10) }}
+              </td>
+              <td>{{ checkDate(order.startsAt) }}</td>
+              <td>
+                <div class="row top-list">
+                  <div class="col-3">
+                    <img width="50px" height="40px" :src="order.customer.profilePic" />
+                  </div>
+                  <div class="col-9">
+                    <p >{{order.customer.name}}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="row top-list">
+                  <div class="col-3">
+                    <img width="50px" height="40px" :src="order.serviceProvider.profilePic" />
+                  </div>
+                  <div class="col-9">
+                    <div>
+                      <p class="">{{ order.serviceProvider.name }}</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="row top-list mt-2">
+                  <div class="col-3">
+                    <img width="50px" height="40px"  />
+                  </div>
+                  <div class="col-9">
+                    <div>
+                      <p class="mt-2 ml-1">categoryName</p>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>{{ order.city }}</td>
+              <td>
+                <i
+                  :class="{
+                    pending: order.status == 'pending',
+                    compelted: order.status == 'completed',
+                    canceled: order.status == 'canceled',
+                  }"
+                  class="fas fa-circle"
+                  style="
+                    color: #06d9a6;
+                    font-weight: bold;
+                    font-size: 8px;
+                    margin-right: 9px;
+                  "
+                ></i>
+                <span
+                  :class="{
+                    pending: order.status == 'pending',
+                    compelted: order.status == 'completed',
+                    canceled: order.status == 'canceled',
+                  }"
+                  style="color: #06d9a6; font-weight: bold; font-size: 14px"
+                  >{{ order.status }}</span
+                >
+              </td>
 
-          <tr v-for="order in orders" :key="order._id">
-            <td>
-              {{ order._id.slice(0, 10) }} <br />
-              {{ order._id.slice(10) }}
-            </td>
-            <td>{{ checkDate(order.startsAt) }}</td>
-            <td>
-              <div class="row top-list">
-                <div class="col-3">
-                  <img
-                    width="50px"
-                    height="40px"
-                    src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                    alt=""
-                  />
-                </div>
-                <div class="col-8">
-                  <div class="mt-2" style="width: 110px">
-                    <p class="mt-2 ml-3">{{ order.customer.name }}</p>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="row top-list">
-                <div class="col-3">
-                  <img
-                    width="50px"
-                    height="40px"
-                    src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                    alt=""
-                  />
-                </div>
-                <div class="col-8">
-                  <div style="width: 110px">
-                    <p class="mt-2 ml-3">{{ order.serviceProvider.name }}</p>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="row top-list">
-                <div class="col-3">
-                  <img width="50px" height="40px" alt="" />
-                </div>
-                <div class="col-8">
-                  <div style="width: 110px">
-                    <p class="mt-2 ml-3">{{ order.category.name }}</p>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>{{ order.city }}</td>
-            <td>
-              <i
-                :class="{
-                  pending: order.status == 'pending',
-                  compelted: order.status == 'completed',
-                  canceled: order.status == 'canceled',
-                }"
-                class="fas fa-circle"
-                style="
-                  color: #06d9a6;
-                  font-weight: bold;
-                  font-size: 8px;
-                  margin-right: 9px;
-                "
-              ></i>
-              <span
-                :class="{
-                  pending: order.status == 'pending',
-                  compelted: order.status == 'completed',
-                  canceled: order.status == 'canceled',
-                }"
-                style="color: #06d9a6; font-weight: bold; font-size: 14px"
-                >{{ order.status }}</span
-              >
-            </td>
-
-            <td class="font-weight-bold">${{ order.price }}</td>
-          </tr>
+              <td class="font-weight-bold">${{ order.price }}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -189,11 +180,10 @@ export default {
       if (this.dateTo) {
         queryParam["date_to"] = new Date(this.dateTo).toDateString();
       }
+      if (this.serviceprovidername) {
+        queryParam['serviceprovidername'] = this.serviceprovidername
+      }
 
-      console.log(
-        "🚀 ~ file: orders.vue ~ line 167 ~ callApi ~ queryParam",
-        queryParam
-      );
       axios
         .get(
           "https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc",
@@ -220,6 +210,13 @@ export default {
     dateTo: function (val) {
       this.callApi();
       console.log(val);
+    },
+    serviceprovidername: function (val) {
+      setTimeout(() => {
+        this.callApi();
+      console.log(val);
+      }, 3000);
+
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header" style="border-bottom: none">Recent order</div>
+    <div class="card-header" style="border-bottom: none; ">Recent order</div>
     <div class="card-body" style="padding: 0">
       <table class="table">
         <tr>
@@ -168,5 +168,10 @@ table tr .row p {
 }
 .canceled {
   color: red !important;
+}
+.card-header {
+  background-color: white !important;
+  color: rgb(107, 107, 107);
+  font-weight: 500;
 }
 </style>
