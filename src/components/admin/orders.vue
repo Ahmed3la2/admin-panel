@@ -1,10 +1,30 @@
 <template>
   <div class="p-4">
-         <div class="row mb-3 mt-4">
-      <div class="col-4 col-md-7">
-        <h4 class="head">All orders</h4>
+    <div class="row mb-2">
+      <div class="col-2">
+        <h4 class="head pt-4">All orders</h4>
       </div>
-      <div class="col-12 col-md-5">
+      <div class="col-5">
+        <div>
+          <input
+            type="text"
+            style="color: #afadad; font-size: 14px; font-weight: 600"
+            placeholder="filter by service provider name"
+            class="form-control p-2"
+            v-model="serviceprovidername"
+          />
+        </div>
+        <div class="search-div pt-2">
+          <input
+            type="text"
+            style="color: #afadad; font-size: 14px; font-weight: 600"
+            placeholder="filter by customer name"
+            class="form-control p-2"
+            v-model="customername"
+          />
+        </div>
+      </div>
+      <div class="col-5">
         <div class="d-flex">
           <div class="form-group">
             <span>From</span>
@@ -16,7 +36,6 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
-           
           </div>
 
           <div class="form-group ml-4">
@@ -29,7 +48,6 @@
               class="form-control"
               placeholder="MM/DD/YYYY"
             />
-           
           </div>
         </div>
       </div>
@@ -44,7 +62,7 @@
           font-weight: 700;
         "
       >
-        All  Order List
+        All Order List
       </div>
       <div class="card-body" style="padding: 0">
         <table class="table">
@@ -61,7 +79,7 @@
 
           <tr v-for="order in orders" :key="order._id">
             <td>
-              OR- {{ order._id.slice(0, 10) }} <br />
+              {{ order._id.slice(0, 10) }} <br />
               {{ order._id.slice(10) }}
             </td>
             <td>{{ checkDate(order.startsAt) }}</td>
@@ -153,15 +171,17 @@ export default {
     return {
       dateFrom: "",
       dateTo: "",
+      serviceprovidername: "",
+      customername: "",
       orders: [],
     };
   },
   methods: {
-     checkDate(date) {
+    checkDate(date) {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
     },
-     callApi() {
+    callApi() {
       let queryParam = {};
       if (this.dateFrom) {
         queryParam["date_from"] = new Date(this.dateFrom).toDateString();
@@ -170,14 +190,20 @@ export default {
         queryParam["date_to"] = new Date(this.dateTo).toDateString();
       }
 
-        console.log("🚀 ~ file: orders.vue ~ line 167 ~ callApi ~ queryParam", queryParam)
+      console.log(
+        "🚀 ~ file: orders.vue ~ line 167 ~ callApi ~ queryParam",
+        queryParam
+      );
       axios
-        .get("https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc", {
-          headers: { "x-auth-token": localStorage.getItem("token") },
-          params: {
-            ...queryParam,
-          },
-        })
+        .get(
+          "https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc",
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+            params: {
+              ...queryParam,
+            },
+          }
+        )
         .then((res) => {
           this.orders = res.data.orders.slice(0, 6);
         });
@@ -196,31 +222,11 @@ export default {
       console.log(val);
     },
   },
-  // async onApply() {
-  //   let queryParam = {};
-  //   if (this.dateFrom) {
-  //     queryParam["date_from"] = this.dateFrom;
-  //   }
-  //   if (this.dateTo) {
-  //     queryParam["date_to"] = this.dateTo;
-  //   }
-
-  //   axios
-  //     .get("https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc", {
-  //       headers: { "x-auth-token": localStorage.getItem("token") },
-  //       params: {
-  //         ...queryParam,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       this.orders = res.data.orders.slice(0, 5);
-  //     });
-  // },
 };
 </script>
 
 <style scoped>
-span{
+span {
   font-weight: bold;
 }
 .head {
@@ -244,5 +250,15 @@ table tr .row p {
 }
 .canceled {
   color: red !important;
+}
+::placeholder {
+  opacity: 0.5;
+}
+input[type="text"] {
+  width: 350px;
+}
+input {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
 </style>
