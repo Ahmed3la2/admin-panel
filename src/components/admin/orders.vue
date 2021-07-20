@@ -86,23 +86,23 @@
               </td>
               <td>{{ checkDate(order.startsAt) }}</td>
               <td>
-                <div class="row top-list">
+                <div class="row top-list mt-2">
                   <div class="col-3">
                     <img width="50px" height="40px" :src="order.customer.profilePic" />
                   </div>
                   <div class="col-9">
-                    <p >{{order.customer.name}}</p>
+                    <p class="mt-2 ml-3">{{order.customer.name}}</p>
                   </div>
                 </div>
               </td>
               <td>
-                <div class="row top-list">
+                <div class="row top-list mt-2">
                   <div class="col-3">
                     <img width="50px" height="40px" :src="order.serviceProvider.profilePic" />
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="">{{ order.serviceProvider.name }}</p>
+                      <p class="mt-2 ml-3">{{ order.serviceProvider.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -110,11 +110,11 @@
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
-                    <img width="50px" height="40px"  />
+                    <img width="50px" height="40px" :src="order.category.coverPhoto"  />
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-1">categoryName</p>
+                      <p class="mt-2 ml-1">{{order.category.name}}</p>
                     </div>
                   </div>
                 </div>
@@ -181,12 +181,15 @@ export default {
         queryParam["date_to"] = new Date(this.dateTo).toDateString();
       }
       if (this.serviceprovidername) {
-        queryParam['serviceprovidername'] = this.serviceprovidername
+        queryParam['serach_serviceProvider'] = this.serviceprovidername
+      }
+       if (this.customername) {
+        queryParam['serach_customer'] = this.customername
       }
 
       axios
         .get(
-          "https://masla7a.herokuapp.com/admin/control/orders/?categoryId=60cb6796d2296447589e24a1&sort=date_desc",
+          "https://masla7a.herokuapp.com/admin/control/orders/?sort=date_desc",
           {
             headers: { "x-auth-token": localStorage.getItem("token") },
             params: {
@@ -215,7 +218,14 @@ export default {
       setTimeout(() => {
         this.callApi();
       console.log(val);
-      }, 3000);
+      }, 2000);
+
+    },
+     customername: function (val) {
+      setTimeout(() => {
+        this.callApi();
+      console.log(val);
+      }, 2000);
 
     },
   },

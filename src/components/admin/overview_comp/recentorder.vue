@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="card-header" style="border-bottom: none; ">Recent order</div>
+    <div class="card-header" style="border-bottom: none">Recent order</div>
     <div class="card-body" style="padding: 0">
       <table class="table">
         <tr>
@@ -19,7 +19,7 @@
                 <img
                   width="50px"
                   height="40px"
-                  src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
+                  :src="order.customer.profilePic"
                   alt=""
                 />
               </div>
@@ -33,12 +33,7 @@
           <td>
             <div class="row top-list">
               <div class="col-3">
-                <img
-                  width="50px"
-                  height="40px"
-                  src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                  alt=""
-                />
+                <img width="50px" height="40px" :src="order.serviceProvider.profilePic" alt="" />
               </div>
               <div class="col-8">
                 <div style="width: 110px">
@@ -69,7 +64,7 @@
                 compelted: order.status == 'completed',
                 canceled: order.status == 'canceled',
               }"
-              style="color: #06d9a6; font-weight: bold;font-size:14px "
+              style="color: #06d9a6; font-weight: bold; font-size: 14px"
               >{{ order.status }}</span
             >
           </td>
@@ -105,12 +100,15 @@ export default {
       }
 
       axios
-        .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
-          headers: { "x-auth-token": localStorage.getItem("token") },
-          params: {
-            ...queryParam,
-          },
-        })
+        .get(
+          "https://masla7a.herokuapp.com/admin/control/orders/recent-orders",
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+            params: {
+              ...queryParam,
+            },
+          }
+        )
         .then((res) => {
           this.orders = res.data.orders.slice(0, 4);
         });
