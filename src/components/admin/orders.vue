@@ -69,13 +69,24 @@
           <thead>
             <tr>
               <td>iD</td>
-              <td>Date</td>
+              <td>
+                Date 
+                <i class="fas fa-arrow-up" @click="sortedByDate()"></i> 
+                <!-- <button >
+                  <span v-if="oldestFirst" > lolo</span>
+                  <span v-else >dina</span>
+                 
+                </button> -->
+                
+              </td>
               <td>Customer</td>
               <td>Service Provider</td>
               <td>Category</td>
               <td>location</td>
               <td>Status</td>
-              <td>Total</td>
+              <td>
+                Total <i class="fas fa-arrow-up"></i>
+              </td>
             </tr>
           </thead>
           <tbody v-for="order in orders" :key="order._id">
@@ -84,21 +95,30 @@
                 OR-{{ order._id.slice(0, 10) }} <br />
                 {{ order._id.slice(10) }}
               </td>
-              <td>{{ checkDate(order.startsAt) }}</td>
+              <td  >
+                {{ checkDate(order.startsAt) }}</td>
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
-                    <img width="50px" height="40px" :src="order.customer.profilePic" />
+                    <img
+                      width="50px"
+                      height="40px"
+                      :src="order.customer.profilePic"
+                    />
                   </div>
                   <div class="col-9">
-                    <p class="mt-2 ml-3">{{order.customer.name}}</p>
+                    <p class="mt-2 ml-3">{{ order.customer.name }}</p>
                   </div>
                 </div>
               </td>
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
-                    <img width="50px" height="40px" :src="order.serviceProvider.profilePic" />
+                    <img
+                      width="50px"
+                      height="40px"
+                      :src="order.serviceProvider.profilePic"
+                    />
                   </div>
                   <div class="col-9">
                     <div>
@@ -110,11 +130,15 @@
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
-                    <img width="50px" height="40px" :src="order.category.coverPhoto"  />
+                    <img
+                      width="50px"
+                      height="40px"
+                      :src="order.category.coverPhoto"
+                    />
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-1">{{order.category.name}}</p>
+                      <p class="mt-2 ml-1">{{ order.category.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -160,6 +184,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      oldestFirst: false,
       dateFrom: "",
       dateTo: "",
       serviceprovidername: "",
@@ -181,10 +206,10 @@ export default {
         queryParam["date_to"] = new Date(this.dateTo).toDateString();
       }
       if (this.serviceprovidername) {
-        queryParam['serach_serviceProvider'] = this.serviceprovidername
+        queryParam["serach_serviceProvider"] = this.serviceprovidername;
       }
-       if (this.customername) {
-        queryParam['serach_customer'] = this.customername
+      if (this.customername) {
+        queryParam["serach_customer"] = this.customername;
       }
 
       axios
@@ -201,10 +226,26 @@ export default {
           this.orders = res.data.orders.slice(0, 6);
         });
     },
+    sortedByDate(){
+      this.oldestFirst = !this.oldestFirst;
+    }
   },
+  //   computed: {
+  //   newDates: function() {
+  //     var order = this.oldestFirst ? 1 : -1;
+  //     // `this` points to the vm instance    
+  //     this.dates.sort(function(a, b) {
+  //       a = new Date(a.date);
+  //       b = new Date(b.date);
+  //       var results = a > b ? -1 : a < b ? 1 : 0;
+  //       return results * order;
+  //     });
+  //   }    
+  // },
   created() {
     this.callApi();
   },
+
   watch: {
     dateFrom: function (val) {
       this.callApi();
@@ -217,16 +258,14 @@ export default {
     serviceprovidername: function (val) {
       setTimeout(() => {
         this.callApi();
-      console.log(val);
+        console.log(val);
       }, 2000);
-
     },
-     customername: function (val) {
+    customername: function (val) {
       setTimeout(() => {
         this.callApi();
-      console.log(val);
+        console.log(val);
       }, 2000);
-
     },
   },
 };
