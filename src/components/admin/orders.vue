@@ -69,34 +69,40 @@
           <thead>
             <tr>
               <td>iD</td>
-              <td>
-                Date 
-                <i class="fas fa-arrow-up" @click="sortedByDate()"></i> 
-                <!-- <button >
-                  <span v-if="oldestFirst" > lolo</span>
-                  <span v-else >dina</span>
-                 
-                </button> -->
-                
+              <td v-on:click="sortedByDate">
+                Date
+                <span v-if="oldestFirstDate" key="up">
+                  <span :class="[arrowIconClassUp]"></span>
+                </span>
+                <span v-else key="down">
+                  <span :class="[arrowIconClassDown]"></span>
+                </span>
               </td>
               <td>Customer</td>
               <td>Service Provider</td>
               <td>Category</td>
               <td>location</td>
               <td>Status</td>
-              <td>
-                Total <i class="fas fa-arrow-up"></i>
+              <td v-on:click="sortedByProfit">
+                Total
+                <span v-if="oldestFirstProfit" key="up">
+                  <span :class="[arrowIconClassUp]"></span>
+                </span>
+                <span v-else key="down">
+                  <span :class="[arrowIconClassDown]"></span>
+                </span>
               </td>
             </tr>
           </thead>
           <tbody v-for="order in orders" :key="order._id">
-            <tr class="justify-content-center">
-              <td>
+            <tr class="">
+              <td style="font-size: 15px">
                 OR-{{ order._id.slice(0, 10) }} <br />
                 {{ order._id.slice(10) }}
               </td>
-              <td  >
-                {{ checkDate(order.startsAt) }}</td>
+              <td>
+                {{ checkDate(order.startsAt) }}
+              </td>
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
@@ -107,7 +113,7 @@
                     />
                   </div>
                   <div class="col-9">
-                    <p class="mt-2 ml-3">{{ order.customer.name }}</p>
+                    <p class="mt-2 ml-2">{{ order.customer.name }}</p>
                   </div>
                 </div>
               </td>
@@ -122,7 +128,7 @@
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-3">{{ order.serviceProvider.name }}</p>
+                      <p class="mt-2 ml-2">{{ order.serviceProvider.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -138,7 +144,7 @@
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-1">{{ order.category.name }}</p>
+                      <p class="mt-2">{{ order.category.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -156,7 +162,7 @@
                     color: #06d9a6;
                     font-weight: bold;
                     font-size: 8px;
-                    margin-right: 9px;
+                    margin-right: 3px;
                   "
                 ></i>
                 <span
@@ -184,12 +190,16 @@ import axios from "axios";
 export default {
   data() {
     return {
-      oldestFirst: false,
+      oldestFirstDate: false,
+      oldestFirstProfit: false,
       dateFrom: "",
       dateTo: "",
       serviceprovidername: "",
       customername: "",
       orders: [],
+      sort: "",
+      arrowIconClassUp: "fa fa-arrow-up",
+      arrowIconClassDown: "fa fa-arrow-down",
     };
   },
   methods: {
@@ -198,7 +208,7 @@ export default {
       return new Date(date).toDateString();
     },
     callApi() {
-      let queryParam = {};
+      const queryParam = {};
       if (this.dateFrom) {
         queryParam["date_from"] = new Date(this.dateFrom).toDateString();
       }
@@ -211,37 +221,27 @@ export default {
       if (this.customername) {
         queryParam["serach_customer"] = this.customername;
       }
-
+      if (this.sort) {
+        queryParam["sort"] = this.sort;
+      }
+      const params = queryParam;
       axios
-        .get(
-          "https://masla7a.herokuapp.com/admin/control/orders/?sort=date_desc",
-          {
-            headers: { "x-auth-token": localStorage.getItem("token") },
-            params: {
-              ...queryParam,
-            },
-          }
-        )
+        .get("https://masla7a.herokuapp.com/admin/control/orders/", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params,
+        })
         .then((res) => {
           this.orders = res.data.orders.slice(0, 6);
         });
     },
-    sortedByDate(){
-      this.oldestFirst = !this.oldestFirst;
-    }
+    sortedByDate() {
+      this.oldestFirstDate = !this.oldestFirstDate;
+    },
+    sortedByProfit() {
+      this.oldestFirstProfit = !this.oldestFirstProfit;
+    },
   },
-  //   computed: {
-  //   newDates: function() {
-  //     var order = this.oldestFirst ? 1 : -1;
-  //     // `this` points to the vm instance    
-  //     this.dates.sort(function(a, b) {
-  //       a = new Date(a.date);
-  //       b = new Date(b.date);
-  //       var results = a > b ? -1 : a < b ? 1 : 0;
-  //       return results * order;
-  //     });
-  //   }    
-  // },
+
   created() {
     this.callApi();
   },
@@ -266,6 +266,23 @@ export default {
         this.callApi();
         console.log(val);
       }, 2000);
+    },
+    oldestFirstDate: function (val) {
+      if (val == true) {
+        this.sort = "date_desc";
+      } else if (val == false) {
+        this.sort = "date_asc";
+      }
+      this.callApi();
+    },
+
+    oldestFirstProfit: function (val) {
+      if (val == true) {
+        this.sort = "price_desc";
+      } else if (val == false) {
+        this.sort = "price_asc";
+      }
+      this.callApi();
     },
   },
 };
