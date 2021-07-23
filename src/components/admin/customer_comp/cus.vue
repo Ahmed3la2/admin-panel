@@ -3,16 +3,17 @@
   <div>
     <div class="row p-4 head">
       <div class="col-12 col-md-8">
-        <h4>Customer</h4>
+        <h4 class="pt-3">Customer</h4>
       </div>
       <div class="col-12 col-md-4">
         <div class="search-div">
           <input
             type="text"
-            placeholder="search service provider"
+            placeholder="search Customer"
             class="form-control p-3"
+            v-model="Customername"
           />
-          <div class="ic">
+          <div class="ic pt-2">
             <i class="fas fa-search"></i>
           </div>
         </div>
@@ -21,21 +22,71 @@
     <div class="row p-4">
       <div class="col-12">
         <div class="card">
-          <div class="card-header" style="background: white;">
-            Service Provider List
+          <div class="card-header" style="background: white; border: none">
+            <div class="row">
+              <div
+                class="col-md-10 mt-2"
+                style="color: rgb(104 145 228); font-weight: 700"
+              >
+                Customer List
+              </div>
+              <div class="col-md-2">
+                <div
+                  class="btn btn-primary"
+                  style="
+                    background: #edf1f7 !important;
+                    color: black;
+                    border: #edf1f7;
+                    margin-left: 70px;
+                  "
+                >
+                  <i class="bx bx-download"></i>
+                  Export
+                </div>
+              </div>
+            </div>
           </div>
+
+          <!--     <div
+        class="card-header"
+        style="
+          background: white;
+          border: none;
+          color: rgb(104 145 228);
+          font-weight: 700;
+        "
+      >
+        Customer List
+      </div> -->
+          <hr />
           <div class="card-body" style="padding: 0">
             <div class="table-responsive-xl">
               <table class="table table-hover">
                 <tr>
-                  <td>Name</td>
+                  <td v-on:click="sortedByName">
+                    Name
+                    <span v-if="oldestFirstName" key="up">
+                      <span :class="[arrowIconClassUp]"></span>
+                    </span>
+                    <span v-else key="down">
+                      <span :class="[arrowIconClassDown]"></span>
+                    </span>
+                  </td>
                   <td>Email</td>
                   <td>Location</td>
                   <td>Phone</td>
-                  <td>Number of Order</td>
+                  <td v-on:click="sortedByOrder">
+                    Number of Order
+                    <span v-if="oldestFirstOrder" key="up">
+                      <span :class="[arrowIconClassUp]"></span>
+                    </span>
+                    <span v-else key="down">
+                      <span :class="[arrowIconClassDown]"></span>
+                    </span>
+                  </td>
                   <td>Action</td>
                 </tr>
-                <tr v-for="(item,index) in pageOfItems" :key="index">
+                <tr v-for="(item, index) in pageOfItems" :key="index">
                   <td>
                     <div class="row top-list">
                       <div class="col-3">
@@ -48,19 +99,19 @@
                       </div>
                       <div class="col-8 text-center">
                         <div class="mt-2" style="width: 110px">
-                          <p>{{item.name}}</p>
+                          <p>{{ item.name }}</p>
                         </div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <p>{{item.email}}</p>
+                    <p>{{ item.email }}</p>
                   </td>
-                  <td>{{item.city}}</td>
-                  <td>{{item.phone_number}}</td>
-                  <td style="text-align:center">{{item.numberOfOrders}}</td>
+                  <td>{{ item.city }}</td>
+                  <td>{{ item.phone_number }}</td>
+                  <td style="text-align: center">{{ item.numberOfOrders }}</td>
                   <td class="d-flex" style="align-items: center">
-                    <router-link :to="'/cus_view/'+ item._id" tag="div">
+                    <router-link :to="'/cus_view/' + item._id" tag="div">
                       <i class="more fas fa-pencil-alt mr-3"></i>
                     </router-link>
                     <i class="more fas fa-ellipsis-h"></i>
@@ -70,8 +121,13 @@
             </div>
           </div>
           <div class="card-footer" style="background: white">
-            <div style="width: 17rem;margin-left: auto;">
-             <jw-pagination style="display:block;" :pageSize=4 :items="Allcustomer" @changePage="onChangePage"></jw-pagination>
+            <div style="width: 17rem; margin-left: auto">
+              <jw-pagination
+                style="display: block"
+                :pageSize="4"
+                :items="Allcustomer"
+                @changePage="onChangePage"
+              ></jw-pagination>
             </div>
           </div>
         </div>
@@ -85,27 +141,76 @@ import axios from "axios";
 export default {
   data() {
     return {
+      oldestFirstName: false,
+      oldestFirstOrder: false,
       Allcustomer: null,
       pageOfItems: [],
+      sort: "",
+      Customername: "",
+      arrowIconClassUp: "fa fa-arrow-up",
+      arrowIconClassDown: "fa fa-arrow-down",
     };
   },
   methods: {
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems;
     },
+    callApi() {
+      const queryParam = {};
+      if (this.sort) {
+        queryParam["sort"] = this.sort;
+      }
+      if (this.customername) {
+        queryParam["search"] = this.Customername;
+      }
+      const params = queryParam;
+      axios
+        .get(
+          "https://masla7a.herokuapp.com/admin/control/users/customers?sort=name_asc",
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+          },
+          params
+        )
+        .then((res) => {
+          this.Allcustomer = res.data.customers;
+          console.log(res.data.customers);
+        });
+    },
+    sortedByOrder() {
+      this.oldestFirstOrder = !this.oldestFirstOrder;
+    },
+    sortedByName() {
+      this.oldestFirstName = !this.oldestFirstName;
+    },
   },
+
   created() {
-    axios
-      .get(
-        "https://masla7a.herokuapp.com/admin/control/users/customers?sort=name_asc",
-        {
-          headers: { "x-auth-token": localStorage.getItem("token") },
-        }
-      )
-      .then((res) => {
-        this.Allcustomer = res.data.customers;
-        console.log(res.data.customers)
-      });
+    this.callApi();
+  },
+  watch: {
+    oldestFirstName: function (val) {
+      if (val == true) {
+        this.sort = "name_desc";
+      } else if (val == false) {
+        this.sort = "name_asc";
+      }
+      this.callApi();
+    },
+    Customername: function (val) {
+      setTimeout(() => {
+        this.callApi();
+        console.log(val);
+      }, 2000);
+    },
+    oldestFirstOrder: function (val) {
+      if (val == true) {
+        this.sort = "numberOfOrders_desc";
+      } else if (val == false) {
+        this.sort = "numberOfOrders_asc";
+      }
+      this.callApi();
+    },
   },
 };
 </script>
@@ -130,9 +235,9 @@ export default {
   right: 39px;
   opacity: 0.3;
 }
-table tr:first-child td{
-  border-bottom: 1px solid rgba(0,0,0,.125);;  
-} 
+table tr:first-child td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
 td {
   vertical-align: middle;
   border: none;

@@ -2,7 +2,7 @@
   <div>
     <div class="sidebar">
       <div class="logo_content">
-        <div class="logo">
+        <div class="logo" style="margin-left:15px; margin-top:10px;">
           <i class="bx bxl-c-plus-plus"></i>
           <div class="logo_name">Msla7a</div>
         </div>
@@ -11,22 +11,23 @@
       <ul class="nav_list">
         <router-link to="/" tag="li">
           <a>
-            <i class="bx bx-home bx-rotate-0 bx-none bx-flip-none"></i>
+            <i class="fas fa-home bx-rotate-0 bx-none bx-flip-none" style="margin: 0 10px 0 18px"></i>
             <span class="links_name">Dashboard</span>
           </a>
           <span class="tooltip">Dashboard</span>
         </router-link>
-        <li class="text-center m-auto" id="t">
+       <!--  <li class="text-center m-auto" id="t">
           <a href="#">
             <span class="links_name" style="margin-left: 25px">mangment</span>
           </a>
-        </li>
+        </li> -->
         <router-link to="/serviceProvider" tag="li">
           <a>
-            <i class="bx bx-user"></i>
-            <span class="links_name">service provider</span>
+            
+            <i class="fas fa-user" style="margin: 0 10px 0 18px"></i>
+            <span class="links_name" style="margin: 0 5px 0 5px">Service Provider</span>
           </a>
-          <span class="tooltip">service provider</span>
+          <span class="tooltip">Service Provider</span>
         </router-link>
         <router-link to="/customers" tag="li">
           <a>
@@ -38,25 +39,32 @@
         <router-link to="/Category" tag="li">
           <a>
             <i class="fas fa-th-large" style="margin: 0 10px 0 18px"></i>
-            <span class="links_name">Service category</span>
+            <span class="links_name">Service Category</span>
           </a>
-          <span class="tooltip">Service category</span>
+          <span class="tooltip">Service Category</span>
         </router-link>
         <router-link to="/Order" tag="li">
           <a>
             <i class="fas fa-shopping-cart" style="margin: 0 10px 0 18px"></i>
-            <span class="links_name">Order</span>
+            <span class="links_name">Orders</span>
           </a>
-          <span class="tooltip">Order</span>
+          <span class="tooltip">Orders</span>
         </router-link>
-        <li>
-          <a href="#">
-            <i class="bx bx-cog"></i>
-            <span class="links_name">settings</span>
+             <router-link to="/complaints" tag="li">
+          <a>
+            <i class="fas fa-frown" style="margin: 0 10px 0 18px"></i>
+            <span class="links_name">Complaints</span>
           </a>
-          <span class="tooltip">settings</span>
-        </li>
-        <li class="text-center mt-3" id="t">
+          <span class="tooltip">Complaints</span>
+        </router-link>
+             <router-link to="/Settings" tag="li">
+          <a>
+            <i class="fas fa-cog"  style="margin: 0 10px 0 18px"></i>
+            <span class="links_name">Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </router-link>
+   <!--      <li class="text-center mt-3" id="t">
           <a>
             <span class="links_name" style="margin-left: 25px">components</span>
           </a>
@@ -74,7 +82,7 @@
             <span class="links_name">Element</span>
           </a>
           <span class="tooltip">User</span>
-        </li>
+        </li> -->
       </ul>
       <div class="profile_content">
         <div class="profile">

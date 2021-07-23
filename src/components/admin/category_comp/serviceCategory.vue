@@ -20,16 +20,48 @@
       <div class="row mt-4">
         <div class="col-12">
           <div class="card" style="box-shadow: #a29f9f 0px 0px 10px">
-            <div class="card-header" style="background: white; border: none">
+            <div
+              class="card-header"
+              style="
+                background: white;
+                border: none;
+                color: rgb(104 145 228);
+                font-weight: 700;
+              "
+            >
               Service Category List
             </div>
             <div class="card-body" style="padding: 0">
               <div class="table-responsive-xl">
                 <table class="table table-hover">
                   <tr>
-                    <td style="padding-left: 46px">Name</td>
-                    <td class="text-center">No Of Services</td>
-                    <td class="text-center">Total No of Order</td>
+                    <td style="padding-left: 46px" v-on:click="sortedByName">
+                      Name
+                      <span v-if="oldestFirstName" key="up">
+                        <span :class="[arrowIconClassUp]"></span>
+                      </span>
+                      <span v-else key="down">
+                        <span :class="[arrowIconClassDown]"></span>
+                      </span>
+                    </td>
+
+                    <td class="text-center" v-on:click="sortedByNS">
+                      No Of Services
+                      <span v-if="oldestFirstNS" key="up">
+                        <span :class="[arrowIconClassUp]"></span>
+                      </span>
+                      <span v-else key="down">
+                        <span :class="[arrowIconClassDown]"></span>
+                      </span>
+                    </td>
+                    <td class="text-center" v-on:click="sortedByT">Total No of Order
+                      <span v-if="oldestFirstT" key="up">
+                        <span :class="[arrowIconClassUp]"></span>
+                      </span>
+                      <span v-else key="down">
+                        <span :class="[arrowIconClassDown]"></span>
+                      </span>
+                    </td>
                     <td class="text-center">Action</td>
                   </tr>
                   <tr
@@ -94,22 +126,72 @@ export default {
   data() {
     return {
       AllCategories: null,
+      oldestFirstName: false,
+      oldestFirstNS: false,
+      oldestFirstT:false,
       pageOfItems: [],
+      sort: "",
+      arrowIconClassUp: "fa fa-arrow-up",
+      arrowIconClassDown: "fa fa-arrow-down",
     };
   },
-  created() {
-    axios
-      .get("https://masla7a.herokuapp.com/admin/control/categories", {
-        headers: { "x-auth-token": localStorage.getItem("token") },
-      })
-      .then((res) => {
-        this.AllCategories = res.data.categories;
-        console.log(this.AllCategories);
-      });
-  },
   methods: {
+    callApi() {
+      const queryParam = {};
+      if (this.sort) {
+        queryParam["sort"] = this.sort;
+      }
+      const params = queryParam;
+      axios
+        .get("https://masla7a.herokuapp.com/admin/control/categories/", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params,
+        })
+        .then((res) => {
+          this.AllCategories = res.data.categories;
+
+        });
+    },
+    sortedByName() {
+      this.oldestFirstName = !this.oldestFirstName;
+    },
+    sortedByNS() {
+      this.oldestFirstNS = !this.oldestFirstNS;
+    },
+    sortedByT() {
+      this.oldestFirstT = !this.oldestFirstT;
+    },
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems;
+    },
+  },
+  created() {
+    this.callApi();
+  },
+  watch: {
+    oldestFirstName: function (val) {
+      if (val == true) {
+        this.sort = "name_desc";
+      } else if (val == false) {
+        this.sort = "name_asc";
+      }
+      this.callApi();
+    },
+    oldestFirstT: function (val) {
+      if (val == true) {
+        this.sort = "numberOfOrders_desc";
+      } else if (val == false) {
+        this.sort = "numberOfOrders_asc";
+      }
+      this.callApi();
+    },
+    oldestFirstNS: function (val) {
+      if (val == true) {
+        this.sort = "numberOfServices_desc";
+      } else if (val == false) {
+        this.sort = "numberOfServices_asc";
+      }
+      this.callApi();
     },
   },
 };

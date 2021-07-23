@@ -2,7 +2,7 @@
   <div class="p-4">
     <div class="row mb-2">
       <div class="col-2">
-        <h4 class="head pt-4">All orders</h4>
+        <h4 class="head pt-4">Complaints</h4>
       </div>
       <div class="col-5">
         <div>
@@ -53,13 +53,13 @@
       </div>
     </div>
     <div class="card">
-       <div class="card-header" style="background: white; border: none">
+      <div class="card-header" style="background: white; border: none">
         <div class="row">
           <div
             class="col-md-10 mt-2"
             style="color: rgb(104 145 228); font-weight: 700"
           >
-              All Order List
+            Complaints List
           </div>
           <div class="col-md-2">
               <div
@@ -77,7 +77,8 @@
           </div>
         </div>
       </div>
-     <!--  <div
+
+      <!-- <div
         class="card-header"
         style="
           background: white;
@@ -86,13 +87,15 @@
           font-weight: 700;
         "
       >
-        All Order List
+        Complaints List
       </div> -->
       <div class="card-body" style="padding: 0">
         <table class="table">
           <thead>
             <tr>
-              <td>iD</td>
+              <td>Customer</td>
+              <td>Service Provider</td>
+              <td>Complaint Type</td>
               <td v-on:click="sortedByDate">
                 Date
                 <span v-if="oldestFirstDate" key="up">
@@ -102,31 +105,11 @@
                   <span :class="[arrowIconClassDown]"></span>
                 </span>
               </td>
-              <td>Customer</td>
-              <td>Service Provider</td>
-              <td>Category</td>
-              <td>location</td>
-              <td>Status</td>
-              <td v-on:click="sortedByProfit">
-                Total
-                <span v-if="oldestFirstProfit" key="up">
-                  <span :class="[arrowIconClassUp]"></span>
-                </span>
-                <span v-else key="down">
-                  <span :class="[arrowIconClassDown]"></span>
-                </span>
-              </td>
+              <td>Description</td>
             </tr>
           </thead>
           <tbody v-for="order in orders" :key="order._id">
             <tr class="">
-              <td style="font-size: 15px">
-                OR-{{ order._id.slice(0, 10) }} <br />
-                {{ order._id.slice(10) }}
-              </td>
-              <td>
-                {{ checkDate(order.startsAt) }}
-              </td>
               <td>
                 <div class="row top-list mt-2">
                   <div class="col-3">
@@ -157,50 +140,11 @@
                   </div>
                 </div>
               </td>
+              <td>type</td>
               <td>
-                <div class="row top-list mt-2">
-                  <div class="col-3">
-                    <img
-                      width="50px"
-                      height="40px"
-                      :src="order.category.coverPhoto"
-                    />
-                  </div>
-                  <div class="col-9">
-                    <div>
-                      <p class="mt-2 ">{{ order.category.name }}</p>
-                    </div>
-                  </div>
-                </div>
+                {{ checkDate(order.startsAt) }}
               </td>
-              <td>{{ order.city }}</td>
-              <td>
-                <i
-                  :class="{
-                    pending: order.status == 'pending',
-                    compelted: order.status == 'completed',
-                    canceled: order.status == 'canceled',
-                  }"
-                  class="fas fa-circle"
-                  style="
-                    color: #06d9a6;
-                    font-weight: bold;
-                    font-size: 8px;
-                    margin-right: 3px;
-                  "
-                ></i>
-                <span
-                  :class="{
-                    pending: order.status == 'pending',
-                    compelted: order.status == 'completed',
-                    canceled: order.status == 'canceled',
-                  }"
-                  style="color: #06d9a6; font-weight: bold; font-size: 14px"
-                  >{{ order.status }}</span
-                >
-              </td>
-
-              <td class="font-weight-bold">${{ order.price }}</td>
+              <td>des</td>
             </tr>
           </tbody>
         </table>

@@ -21,9 +21,18 @@
     <div class="row p-4">
       <div class="col-12">
         <div class="card">
-          <div class="card-header" style="background: white;">
-            Service Provider List
-          </div>
+               <div
+        class="card-header"
+        style="
+          background: white;
+          border: none;
+          color: rgb(104 145 228);
+          font-weight: 700;
+        "
+      >
+        Service Provider List
+      </div>
+       <hr>
           <div class="card-body" style="padding: 0">
             <div class="table-responsive-xl">
               <table class="table table-hover">
