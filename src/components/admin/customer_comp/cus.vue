@@ -160,21 +160,20 @@ export default {
       if (this.sort) {
         queryParam["sort"] = this.sort;
       }
-      if (this.customername) {
+      if (this.Customername) {
         queryParam["search"] = this.Customername;
       }
       const params = queryParam;
       axios
         .get(
-          "https://masla7a.herokuapp.com/admin/control/users/customers?sort=name_asc",
+          "https://masla7a.herokuapp.com/admin/control/users/customers",
           {
             headers: { "x-auth-token": localStorage.getItem("token") },
-          },
-          params
+          params}
         )
         .then((res) => {
           this.Allcustomer = res.data.customers;
-          console.log(res.data.customers);
+        
         });
     },
     sortedByOrder() {
@@ -205,9 +204,9 @@ export default {
     },
     oldestFirstOrder: function (val) {
       if (val == true) {
-        this.sort = "numberOfOrders_desc";
+        this.sort = "orders_desc";
       } else if (val == false) {
-        this.sort = "numberOfOrders_asc";
+        this.sort = "orders_asc";
       }
       this.callApi();
     },

@@ -179,17 +179,17 @@ export default {
     },
     oldestFirstT: function (val) {
       if (val == true) {
-        this.sort = "numberOfOrders_desc";
+        this.sort = "orders_desc";
       } else if (val == false) {
-        this.sort = "numberOfOrders_asc";
+        this.sort = "orders_asc";
       }
       this.callApi();
     },
     oldestFirstNS: function (val) {
       if (val == true) {
-        this.sort = "numberOfServices_desc";
+        this.sort = "services_desc";
       } else if (val == false) {
-        this.sort = "numberOfServices_asc";
+        this.sort = "services_asc";
       }
       this.callApi();
     },
