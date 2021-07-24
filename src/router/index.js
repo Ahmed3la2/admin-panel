@@ -23,7 +23,7 @@ Vue.use(VueRouter);
 /* eslint-disable */
 const routes = [{
         path: "/",
-        name: "admin",
+        // name: "admin",
         component: admin,
         meta: { requiresAuth: true },
         children: [{
@@ -116,8 +116,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (
-            localStorage.getItem("token") == null ||
-            JSON.parse(localStorage.getItem("parsedToken")).role != "admin"
+            localStorage.getItem("token") == null
         ) {
             next({
                 path: "/login",

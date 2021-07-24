@@ -61,7 +61,7 @@ export default {
   methods: {
     async LoginForm() {
       await axios
-        .post("https://masla7a.herokuapp.com/accounts/login", this.login)
+        .post("https://masla7a.herokuapp.com/admin/control/admins/admin-login", this.login)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("parsedToken",JSON.stringify(jwt_decode(res.data.token)));
