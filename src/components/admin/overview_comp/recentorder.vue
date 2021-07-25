@@ -69,7 +69,7 @@
             >
           </td>
 
-          <td class="font-weight-bold">${{ order.price }}</td>
+          <td class="font-weight-bold">{{ order.price }} L.E</td>
         </tr>
       </table>
     </div>

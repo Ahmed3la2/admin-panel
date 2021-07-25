@@ -211,16 +211,16 @@ export default {
   methods: {
     delet: function (id) {
       console.log(id);
-      // axios
-      //   .get(
-      //     `https://masla7a.herokuapp.com/admin/control/categories/delete-category/${id}`,
-      //     {
-      //       headers: { "x-auth-token": localStorage.getItem("token") },
-      //     }
-      //   )
-      //   .then(() => {
-      //     window.location.reload();
-      //   });
+      axios
+        .get(
+          `https://masla7a.herokuapp.com/admin/control/categories/delete-category/${id}`,
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+          }
+        )
+        .then(() => {
+          window.location.reload();
+        });
     },
     callApi() {
       const queryParam = {};
