@@ -42,7 +42,8 @@
                 <download-csv
                   class="btn btn-default"
                   :data="downloadData"
-                  name="filename.csv"
+                  name="Service Provider
+.csv"
                 >
                   <div
                     class="btn btn-primary"
@@ -203,7 +204,7 @@ export default {
         .then((res) => {
           this.AllServiceProvider = res.data.serviceProviders;
           const formatedData = res.data.serviceProviders || [];
-           if (formatedData.length) {
+          if (formatedData.length) {
             formatedData.forEach((element) => {
               const finalObject = {
                 id: element._id,

@@ -34,7 +34,7 @@
                 <download-csv
                   class="btn btn-default"
                   :data="downloadData"
-                  name="filename.csv"
+                  name="Customer.csv"
                 >
                   <div
                     class="btn btn-primary"

@@ -99,7 +99,7 @@
                 <download-csv
                   class="btn btn-default"
                   :data="downloadData"
-                  name="filename.csv"
+                  name="customer Provider.csv"
                 >
                   <div
                     class="btn btn-primary"
@@ -271,13 +271,18 @@ export default {
         )
         .then((res) => {
           this.user = res.data.customer;
-          const formatedData = res.data.customer || [];
+          const formatedData = res.data.customer.orders || [];
             if (formatedData.length) {
             formatedData.forEach((element) => {
               const finalObject = {
                 id: element._id,
-                address: element.address,
-                name: element.name,
+                orderName: element.orderName,
+                price: element.price,
+                serviceName: element.serviceName,
+                status: element.status,
+                startsAt:element.startsAt,
+                name:element.serviceProvider.name,
+
               
               };
               this.downloadData.push(finalObject);
