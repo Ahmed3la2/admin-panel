@@ -19,7 +19,7 @@
                 <img
                   width="50px"
                   height="40px"
-                  src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
+                  :src="order.customer.profilePic"
                   alt=""
                 />
               </div>
@@ -33,12 +33,7 @@
           <td>
             <div class="row top-list">
               <div class="col-3">
-                <img
-                  width="50px"
-                  height="40px"
-                  src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzd8fHByb2ZpbGV8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-                  alt=""
-                />
+                <img width="50px" height="40px" :src="order.serviceProvider.profilePic" alt="" />
               </div>
               <div class="col-8">
                 <div style="width: 110px">
@@ -69,7 +64,7 @@
                 compelted: order.status == 'completed',
                 canceled: order.status == 'canceled',
               }"
-              style="color: #06d9a6; font-weight: bold;font-size:14px "
+              style="color: #06d9a6; font-weight: bold; font-size: 14px"
               >{{ order.status }}</span
             >
           </td>
@@ -84,6 +79,7 @@
 <script>
 import axios from "axios";
 export default {
+  props: ["dateFrom", "dateTo"],
   data() {
     return {
       orders: [],
@@ -94,19 +90,59 @@ export default {
       console.log("Date here: ", new Date(date).toDateString());
       return new Date(date).toDateString();
     },
+    callApi() {
+      let queryParam = {};
+      if (this.dateFrom) {
+        queryParam["date_from"] = new Date(this.dateFrom).toDateString();
+      }
+      if (this.dateTo) {
+        queryParam["date_to"] = new Date(this.dateTo).toDateString();
+      }
+
+      axios
+        .get(
+          "https://masla7a.herokuapp.com/admin/control/orders/recent-orders",
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+            params: {
+              ...queryParam,
+            },
+          }
+        )
+        .then((res) => {
+          this.orders = res.data.orders.slice(0, 4);
+        });
+    },
   },
- /*  color() {
-    if(this.order.status == "pending"){
-      
-    }
-  }, */
   created() {
+    this.callApi();
+  },
+  watch: {
+    dateFrom: function () {
+      this.callApi();
+    },
+    dateTo: function () {
+      this.callApi();
+    },
+  },
+  async onApply() {
+    let queryParam = {};
+    if (this.dateFrom) {
+      queryParam["date_from"] = this.dateFrom;
+    }
+    if (this.dateTo) {
+      queryParam["date_to"] = this.dateTo;
+    }
+
     axios
       .get("https://masla7a.herokuapp.com/admin/control/orders/recent-orders", {
         headers: { "x-auth-token": localStorage.getItem("token") },
+        params: {
+          ...queryParam,
+        },
       })
       .then((res) => {
-        this.orders = res.data.orders.slice(0, 5);
+        this.orders = res.data.orders;
       });
   },
 };
@@ -130,5 +166,10 @@ table tr .row p {
 }
 .canceled {
   color: red !important;
+}
+.card-header {
+  background-color: white !important;
+  color: rgb(107, 107, 107);
+  font-weight: 500;
 }
 </style>

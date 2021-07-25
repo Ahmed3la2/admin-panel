@@ -21,6 +21,11 @@
 .at {
   margin-left: 64px !important;
 }
+.card-header {
+  background-color: white !important;
+  color: rgb(107, 107, 107);
+  font-weight: 500;
+}
 </style>
 
 <script>
