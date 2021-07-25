@@ -53,31 +53,37 @@
       </div>
     </div>
     <div class="card">
-       <div class="card-header" style="background: white; border: none">
+      <div class="card-header" style="background: white; border: none">
         <div class="row">
           <div
             class="col-md-10 mt-2"
             style="color: rgb(104 145 228); font-weight: 700"
           >
-              All Order List
+            All Order List
           </div>
           <div class="col-md-2">
+            <download-csv
+              class="btn btn-default"
+              :data="downloadData"
+              name="filename.csv"
+            >
               <div
-                  class="btn btn-primary"
-                  style="
-                    background: #edf1f7 !important;
-                    color: black;
-                    border: #edf1f7;
-                    margin-left:70px;
-                  "
-                >
-                  <i class="bx bx-download"></i>
-                  Export
-                </div>
+                class="btn btn-primary"
+                style="
+                  background: #edf1f7 !important;
+                  color: black;
+                  border: #edf1f7;
+                  margin-left: 70px;
+                "
+              >
+                <i class="bx bx-download"></i>
+                Export
+              </div>
+            </download-csv>
           </div>
         </div>
       </div>
-     <!--  <div
+      <!--  <div
         class="card-header"
         style="
           background: white;
@@ -168,7 +174,7 @@
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ">{{ order.category.name }}</p>
+                      <p class="mt-2">{{ order.category.name }}</p>
                     </div>
                   </div>
                 </div>
@@ -221,7 +227,9 @@ export default {
       serviceprovidername: "",
       customername: "",
       orders: [],
+      downloadData: [],
       sort: "",
+      endpoint: "",
       arrowIconClassUp: "fa fa-arrow-up",
       arrowIconClassDown: "fa fa-arrow-down",
     };
@@ -248,6 +256,7 @@ export default {
       if (this.sort) {
         queryParam["sort"] = this.sort;
       }
+    
       const params = queryParam;
       axios
         .get("https://masla7a.herokuapp.com/admin/control/orders/", {
@@ -256,7 +265,37 @@ export default {
         })
         .then((res) => {
           this.orders = res.data.orders.slice(0, 6);
+          const formatedData = res.data.orders || [];
+          if (formatedData.length) {
+            formatedData.forEach((element) => {
+              const finalObject = {
+                id: element._id,
+                startsAt: element.startsAt,
+                customer: element.customer.name,
+                serviceProvider: element.serviceProvider.name,
+                category: element.category.name,
+                location: element.city,
+                status: element.status,
+                price: element.price,
+                orderName: element.orderName,
+              };
+              this.downloadData.push(finalObject);
+            });
+          }
         });
+
+      // axios
+      //   .post(
+      //     "https://masla7a.herokuapp.com/admin/control/export-data?endpoint=allOrder",
+      //     {},
+      //     {
+      //       headers: { "x-auth-token": localStorage.getItem("token") },
+      //     }
+      //   )
+      //   .then((res) => {
+      //     console.log("🚀 ~ file: orders.vue ~ line 276 ~ .then ~ res", res);
+      //     this.downloadOrders = res.data.data;
+      //   });
     },
     sortedByDate() {
       this.oldestFirstDate = !this.oldestFirstDate;

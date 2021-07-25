@@ -48,21 +48,22 @@
         <TotalUser v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
       <!-- total profit -->
-      <div class="col-12 col-md-6 col-lg-3">
+      <!-- <div class="col-12 col-md-6 col-lg-3">
         <Totalprofit v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
-      </div>
-    </div>
-
-    <div class="row mb-5">
-      <!-- Application Activity -->
-      <div class="col-12 col-md-9">
-        <AppActive v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
-      </div>
-      <!-- Top Service Provider -->
-      <div class="col-12 col-md-3">
+      </div> -->
+       <div class="col-12 col-md-6 col-lg-3">
         <Topserveprovider v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
       </div>
     </div>
+
+   <!-- <div class="row mb-5">
+      <div class="col-12 col-md-9">
+        <AppActive v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
+      </div>
+      <div class="col-12 col-md-3">
+        <Topserveprovider v-bind:dateFrom="dateFrom" v-bind:dateTo="dateTo" />
+      </div>
+    </div> -->
 
     <div class="row">
       <!-- Recent Order -->
@@ -105,8 +106,8 @@ span{
 import NewUser from "../admin/overview_comp/newuser.vue";
 import TotalUser from "./overview_comp/totaluser.vue";
 import ActiveCustomer from "./overview_comp/activecustomer.vue";
-import Totalprofit from "./overview_comp/totalprofit.vue";
-import AppActive from "./overview_comp/zee.vue";
+// import Totalprofit from "./overview_comp/totalprofit.vue";
+// import AppActive from "./overview_comp/zee.vue";
 import Topserveprovider from "./overview_comp/topserveprovider.vue";
 import TopCategoreis from "./overview_comp/topcat.vue";
 import RecentOrder from "./overview_comp/recentorder.vue";
@@ -117,8 +118,8 @@ export default {
     NewUser,
     TotalUser,
     ActiveCustomer,
-    Totalprofit,
-    AppActive,
+    // Totalprofit,
+    // AppActive,
     Topserveprovider,
     TopCategoreis,
     RecentOrder,

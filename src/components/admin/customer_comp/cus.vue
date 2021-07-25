@@ -31,18 +31,24 @@
                 Customer List
               </div>
               <div class="col-md-2">
-                <div
-                  class="btn btn-primary"
-                  style="
-                    background: #edf1f7 !important;
-                    color: black;
-                    border: #edf1f7;
-                    margin-left: 70px;
-                  "
+                <download-csv
+                  class="btn btn-default"
+                  :data="downloadData"
+                  name="filename.csv"
                 >
-                  <i class="bx bx-download"></i>
-                  Export
-                </div>
+                  <div
+                    class="btn btn-primary"
+                    style="
+                      background: #edf1f7 !important;
+                      color: black;
+                      border: #edf1f7;
+                      margin-left: 70px;
+                    "
+                  >
+                    <i class="bx bx-download"></i>
+                    Export
+                  </div>
+                </download-csv>
               </div>
             </div>
           </div>
@@ -112,9 +118,8 @@
                   <td style="text-align: center">{{ item.numberOfOrders }}</td>
                   <td class="d-flex" style="align-items: center">
                     <router-link :to="'/cus_view/' + item._id" tag="div">
-                      <i class="more fas fa-pencil-alt mr-3"></i>
+                      <i class="more fas fa-pencil-alt"></i>
                     </router-link>
-                    <i class="more fas fa-ellipsis-h"></i>
                   </td>
                 </tr>
               </table>
@@ -146,6 +151,7 @@ export default {
       Allcustomer: null,
       pageOfItems: [],
       sort: "",
+      downloadData: [],
       Customername: "",
       arrowIconClassUp: "fa fa-arrow-up",
       arrowIconClassDown: "fa fa-arrow-down",
@@ -171,6 +177,20 @@ export default {
         })
         .then((res) => {
           this.Allcustomer = res.data.customers;
+          const formatedData = res.data.customers || [];
+          if (formatedData.length) {
+            formatedData.forEach((element) => {
+              const finalObject = {
+                id: element._id,
+                name: element.name,
+                email: element.email,
+                city: element.city,
+                phone_number: element.phone_number,
+                numberOfOrders: element.numberOfOrders,
+              };
+              this.downloadData.push(finalObject);
+            });
+          }
         });
     },
     sortedByOrder() {

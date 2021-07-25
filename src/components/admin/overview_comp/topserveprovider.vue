@@ -98,7 +98,7 @@ export default {
           },
         })
         .then((res) => {
-          this.servedata = res.data.topServiceProviders.slice(0, 4);
+          this.servedata = res.data.topServiceProviders.slice(0, 7);
         });
     },
   },

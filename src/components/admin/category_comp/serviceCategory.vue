@@ -97,7 +97,7 @@
                       <router-link :to="'/serv_view/' + item._id" tag="div">
                         <i class="more fas fa-pencil-alt mr-3"></i>
                       </router-link>
-                      <i class="more fas fa-ellipsis-h"></i>
+                      
                     </td>
                   </tr>
                 </table>

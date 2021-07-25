@@ -62,18 +62,24 @@
             Complaints List
           </div>
           <div class="col-md-2">
+            <download-csv
+              class="btn btn-default"
+              :data="downloadData"
+              name="filename.csv"
+            >
               <div
-                  class="btn btn-primary"
-                  style="
-                    background: #edf1f7 !important;
-                    color: black;
-                    border: #edf1f7;
-                    margin-left:70px;
-                  "
-                >
-                  <i class="bx bx-download"></i>
-                  Export
-                </div>
+                class="btn btn-primary"
+                style="
+                  background: #edf1f7 !important;
+                  color: black;
+                  border: #edf1f7;
+                  margin-left: 70px;
+                "
+              >
+                <i class="bx bx-download"></i>
+                Export
+              </div>
+            </download-csv>
           </div>
         </div>
       </div>
@@ -130,21 +136,23 @@
                     <img
                       width="50px"
                       height="40px"
-                      :src=" complaint.serviceProvider.profilePic"
+                      :src="complaint.serviceProvider.profilePic"
                     />
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-2">{{ complaint.serviceProvider.name }}</p>
+                      <p class="mt-2 ml-2">
+                        {{ complaint.serviceProvider.name }}
+                      </p>
                     </div>
                   </div>
                 </div>
               </td>
-              <td>{{complaint.complaintType}}</td>
+              <td>{{ complaint.complaintType }}</td>
               <td>
                 {{ checkDate(complaint.createdAt) }}
               </td>
-              <td>{{complaint.description}}</td>
+              <td>{{ complaint.description }}</td>
             </tr>
           </tbody>
         </table>
@@ -164,6 +172,7 @@ export default {
       serviceprovidername: "",
       customername: "",
       complaints: [],
+      downloadData: [],
       sort: "",
       arrowIconClassUp: "fa fa-arrow-up",
       arrowIconClassDown: "fa fa-arrow-down",
@@ -198,7 +207,23 @@ export default {
           params,
         })
         .then((res) => {
+          
           this.complaints = res.data.complaints.slice(0, 6);
+          const formatedData = res.data.complaints || [];
+          if (formatedData.length) {
+            formatedData.forEach((element) => {
+              const finalObject = {
+                id: element._id,
+                customer: element.user.name,
+                serviceProvider: element.serviceProvider.name,
+                complaintType: element.complaintType,
+                createdAt: element.createdAt,
+                description: element.description,
+                
+              };
+              this.downloadData.push(finalObject);
+            });
+          }
         });
     },
     sortedByDate() {

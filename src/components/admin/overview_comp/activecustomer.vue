@@ -7,15 +7,7 @@
           <p>{{ numberOfActiveCustomers }}</p>
           <p class="active-cus-percent">{{ percentageOfActiveCustomers }}%</p>
         </div>
-        <div class="col-4">
-          <apexchart
-            width="100"
-            type="line"
-            :options="options"
-            :series="options.series"
-          >
-          </apexchart>
-        </div>
+   
       </div>
     </div>
     <ul class="list-group list-group-flush">

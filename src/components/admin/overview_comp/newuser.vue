@@ -7,15 +7,7 @@
           <p>{{ numberOfNewUsers }}</p>
           <p class="new-user-percent">{{ percentageOfGrowing }}%</p>
         </div>
-        <div class="col-4">
-          <apexchart
-            width="100"
-            type="line"
-            :options="options"
-            :series="options.series"
-          >
-          </apexchart>
-        </div>
+   
       </div>
     </div>
     <ul class="list-group list-group-flush">

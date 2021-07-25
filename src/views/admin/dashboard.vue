@@ -57,13 +57,13 @@
           </a>
           <span class="tooltip">Complaints</span>
         </router-link>
-             <router-link to="/Settings" tag="li">
+       <!--       <router-link to="/Settings" tag="li">
           <a>
             <i class="fas fa-cog"  style="margin: 0 10px 0 18px"></i>
             <span class="links_name">Settings</span>
           </a>
           <span class="tooltip">Settings</span>
-        </router-link>
+        </router-link> -->
    <!--      <li class="text-center mt-3" id="t">
           <a>
             <span class="links_name" style="margin-left: 25px">components</span>
@@ -97,7 +97,7 @@
             src="https://s3.envato.com/files/1756629b-8de6-4d62-8297-8337dd29abc5/inline_image_preview.jpg"
             alt=""
           />
-          <span>chrles balley</span>
+          <span>kareem</span>
         </div>
       </div>
       <router-view></router-view>

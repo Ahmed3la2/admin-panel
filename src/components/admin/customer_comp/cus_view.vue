@@ -24,29 +24,7 @@
                 <p style="opacity: 0.5; margin: 0">{{ user.serviceName }}</p>
               </div>
             </div>
-            <div class="row profile">
-              <div class="col-12 col-md-6 mb-n3 mb-sm-0">
-                <button
-                  class="btn btn-primary pb-sm-2 mb-3 mb-sm-0"
-                  style="width: 100%; padding: 10px; border-radius: 10px"
-                >
-                  <i class="far fa-comment-alt mr-3"></i> E-Mail
-                </button>
-              </div>
-              <div class="col-12 col-md-6">
-                <button
-                  class="btn btn-secandry pl-0"
-                  style="
-                    width: 100%;
-                    padding: 10px;
-                    border-radius: 10px;
-                    background: #edf1f7;
-                  "
-                >
-                  <i class="mr-3 fas fa-pen"></i> Edit
-                </button>
-              </div>
-            </div>
+   
           </div>
           <div class="card-body">
             <ul>
@@ -76,8 +54,8 @@
             <h6 class="mb-4" style="color: #0062cc">Total Profit</h6>
             <div class="row">
               <div class="col-6">
-                <p>4234 L.E</p>
-                <p>+19%</p>
+                <p class="font-weight-bold">{{ total }} L.E</p>
+                
               </div>
               <div class="col-6"></div>
             </div>
@@ -95,7 +73,7 @@
                 class="col-5 justify-content-between"
                 style="text-align: right"
               >
-                <div class="dropdown pr-3" style="display: inline-block">
+                <!--       <div class="dropdown pr-3" style="display: inline-block">
                   <a
                     class="btn btn-secondary dropdown-toggle"
                     style="
@@ -117,18 +95,25 @@
                     <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                   </div>
-                </div>
-                <div
-                  class="btn btn-primary"
-                  style="
-                    background: #edf1f7 !important;
-                    color: black;
-                    border: #edf1f7;
-                  "
+                </div> -->
+                <download-csv
+                  class="btn btn-default"
+                  :data="downloadData"
+                  name="filename.csv"
                 >
-                  <i class="bx bx-download"></i>
-                  Export
-                </div>
+                  <div
+                    class="btn btn-primary"
+                    style="
+                      background: #edf1f7 !important;
+                      color: black;
+                      border: #edf1f7;
+                      margin-left: 70px;
+                    "
+                  >
+                    <i class="bx bx-download"></i>
+                    Export
+                  </div>
+                </download-csv>
               </div>
             </div>
           </div>
@@ -137,10 +122,26 @@
               <table class="table" style="font-size: 15px">
                 <tr>
                   <td>ID</td>
-                  <td>Date</td>
+                  <td v-on:click="sortedByDate">
+                    Date
+                    <span v-if="oldestFirstDate" key="up">
+                      <span :class="[arrowIconClassUp]"></span>
+                    </span>
+                    <span v-else key="down">
+                      <span :class="[arrowIconClassDown]"></span>
+                    </span>
+                  </td>
                   <td>service Provider</td>
                   <td>Status</td>
-                  <td>Total</td>
+                  <td v-on:click="sortedByProfit">
+                    Total
+                    <span v-if="oldestFirstProfit" key="up">
+                      <span :class="[arrowIconClassUp]"></span>
+                    </span>
+                    <span v-else key="down">
+                      <span :class="[arrowIconClassDown]"></span>
+                    </span>
+                  </td>
                 </tr>
                 <tr
                   v-for="(order, index) in pageOfItems"
@@ -149,7 +150,8 @@
                 >
                   <td>
                     <div style="align-items: baseline" class="d-flex">
-                      <input class="mr-2" type="checkbox" />
+                      <!--                       <input class="mr-2" type="checkbox" />
+ -->
                       <p style="white-space: pre; margin: 0">
                         OR-{{
                           order._id.slice(0, 9) + "\n" + order._id.slice(9)
@@ -159,8 +161,7 @@
                   </td>
                   <td>
                     <p style="margin: 0">
-                      {{ order.startsAt.slice(0, 10) }} <br />
-                      {{ order.startsAt.slice(10) }}
+                      {{ checkDate(order.startsAt) }}
                     </p>
                   </td>
                   <td>
@@ -203,13 +204,13 @@
                       >{{ order.status }}</span
                     >
                   </td>
-                  <td>{{ order.price }}$</td>
+                  <td class="font-weight-bold">{{ order.price }}$</td>
                 </tr>
               </table>
             </div>
           </div>
           <div class="card-footer" style="background: white">
-            <div style="width: 15rem; margin-left: auto">
+            <div style="width: 21rem; margin-left: auto">
               <jw-pagination
                 style="display: block"
                 :pageSize="5"
@@ -236,26 +237,92 @@ import axios from "axios";
 export default {
   data() {
     return {
+      oldestFirstDate: false,
+      oldestFirstProfit: false,
       user: [],
       pageOfItems: [],
+      downloadData: [],
+      sort: "",
+      arrowIconClassUp: "fa fa-arrow-up",
+      arrowIconClassDown: "fa fa-arrow-down",
     };
   },
   methods: {
+    checkDate(date) {
+      console.log("Date here: ", new Date(date).toDateString());
+      return new Date(date).toDateString();
+    },
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems;
     },
+    callApi() {
+      const queryParam = {};
+      if (this.sort) {
+        queryParam["sort"] = this.sort;
+      }
+      const params = queryParam;
+      axios
+        .get(
+          `https://masla7a.herokuapp.com/admin/control/users/customers/${this.$route.params.id}`,
+          {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+            params,
+          }
+        )
+        .then((res) => {
+          this.user = res.data.customer;
+          const formatedData = res.data.customer || [];
+            if (formatedData.length) {
+            formatedData.forEach((element) => {
+              const finalObject = {
+                id: element._id,
+                address: element.address,
+                name: element.name,
+              
+              };
+              this.downloadData.push(finalObject);
+            });
+          }
+
+        });
+    },
+    sortedByDate() {
+      this.oldestFirstDate = !this.oldestFirstDate;
+    },
+    sortedByProfit() {
+      this.oldestFirstProfit = !this.oldestFirstProfit;
+    },
   },
   async created() {
-    await axios
-      .get(
-        `https://masla7a.herokuapp.com/admin/control/users/customers/${this.$route.params.id}`,
-        {
-          headers: { "x-auth-token": localStorage.getItem("token") },
-        }
-      )
-      .then((res) => {
-        this.user = res.data.customer;
+    this.callApi();
+  },
+    computed: {
+    total: function () {
+      var x = 0;
+      this.user.orders.forEach((e) => {
+        x = x + e.price;
       });
+      return x;
+    },
+  },
+  watch: {
+    oldestFirstDate: function (val) {
+      if (val == true) {
+        this.sort = "date_desc";
+      } else if (val == false) {
+        this.sort = "date_asc";
+      }
+      this.callApi();
+    },
+
+    oldestFirstProfit: function (val) {
+      if (val == true) {
+        this.sort = "price_desc";
+      } else if (val == false) {
+        this.sort = "price_asc";
+      }
+      this.callApi();
+    },
   },
 };
 </script>

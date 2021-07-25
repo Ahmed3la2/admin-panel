@@ -8,7 +8,7 @@ import serv from "../components/admin/serviceProvider_comp/serv.vue";
 import serv_view from "../components/admin/serviceProvider_comp/serv_view.vue";
 import customer from "../components/admin/customer";
 import orders from "../components/admin/orders";
-import Settings from '../components/admin/Settings';
+// import Settings from '../components/admin/Settings';
 import complaints from '../components/admin/Complaints';
 import cus from "../components/admin/customer_comp/cus.vue";
 import cus_view from "../components/admin/customer_comp/cus_view.vue";
@@ -73,12 +73,12 @@ const routes = [{
                 name: "",
                 component: complaints
             },
-            {
-                path: "Settings",
-                name: "",
-                component: Settings
+            // {
+            //     path: "Settings",
+            //     name: "",
+            //     component: Settings
 
-            },
+            // },
             {
                 path: "category",
                 name: "",

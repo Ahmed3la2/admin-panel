@@ -94,7 +94,7 @@ export default {
           },
         })
         .then((res) => {
-          this.categories = res.data.categories.slice(0, 4);
+          this.categories = res.data.categories.slice(0, 5);
         });
     },
   },

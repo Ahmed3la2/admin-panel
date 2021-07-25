@@ -5,17 +5,9 @@
       <div class="row">
         <div class="col-8 user-status" >
           <p>{{totalUsers}}</p>
-          <p>+25%</p>
+          <p>45%</p>
         </div>
-        <div class="col-4">
-          <apexchart
-            width="100"
-            type="line"
-            :options="coptions"
-            :series="coptions.series"
-          >
-          </apexchart>
-        </div>
+     
       </div>
     </div>
     <div class="card-body">
@@ -88,6 +80,7 @@ import axios from "axios";
 export default {
   data: () => ({
     totalUsers:'',
+    totalpercentageOfGrowing:'',
     options: {
       colors: ["#4791FF", "#FFD950"],
       legend: {
@@ -143,7 +136,8 @@ export default {
         headers: { "x-auth-token": localStorage.getItem("token") },
       }
     );
-    this.totalUsers = customers.data.customersCount;
+    this.totalUsers = customers.data.customersCount + providers.data.serviceProvidersCount;
+    // this.totalpercentageOfGrowing = customers.data.
     this.options.series = [
       customers.data.customersCount,
       providers.data.serviceProvidersCount,
