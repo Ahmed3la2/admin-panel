@@ -1,255 +1,261 @@
-<!--  eslint-disable -->
 <template>
-  <div class="flex-container">
+<div class="flex-container">
     <div class="row">
-      <div class="col-lg-6 flex-column content left">
-        <img src="@/assets/auth/Login.png" />
-        <p>
-          Help us getting better by sending your thoughts about us and about our
-          services,<br />
-          you can also mention any other points that are related by<br />
-          sending your by sending thoughts by sending your thoughts.
-        </p>
-      </div>
-      <div class="col-lg-6 content right flex-column">
-        <h3>Log In</h3>
-        <form class="form" @submit.prevent="LoginForm" style="width: 400px">
-          <div :class="{ invalid: emailValidaty === 'invalid' }">
-            <label for="uname">E-mail</label>
-            <input
-              type="email"
-              required
-              v-model.trim="login.email"
-              placeholder="name@example.com"
-              @blur="validateInput"
-            />
-            <p v-if="emailValidaty === 'invalid'">
-              Please enter a valid email!
+        <div class="col-lg-6 flex-column content left">
+            <img src="@/assets/auth/Login.png" />
+            <p>
+                Dashboard Login
             </p>
-          </div>
-          <label for="psw">Password</label>
-          <input
-            type="password"
-            v-model="login.password"
-            placeholder="at least 8 charachters"
-          />
-          <div>
-            <router-link class="forget" :to="{ name: 'forgotpassword' }">
-            </router-link>
-          </div>
-          <div class="form-group form-check"></div>
-          <button>Login</button>
-        </form>
-      </div>
+        </div>
+        <div class="col-lg-6 content right flex-column">
+            <h3>Log In</h3>
+            <form @submit.prevent="LoginForm">
+                <p v-if="errors.length" class="text-center">
+                    <ul>
+                        <li v-for="error in errors" :key="error.id">{{ error }}</li>
+                    </ul>
+                </p>
+                <label for="uname">E-mail</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+
+                    <input type="email" required v-model="email" class="form-control" placeholder="name@example.com" />
+                </div>
+                <label for="psw">Password</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <i class="fas fa-unlock"></i>
+                        </div>
+                    </div>
+
+                    <input type="password" required v-model="password" class="form-control" placeholder="at least 8 charachters" />
+                </div>
+                <button type="submit" @click="login">Login</button>
+         
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 </template>
-<!--  eslint-disable -->
 
 <script>
-import jwt_decode from "jwt-decode";
 import axios from "axios";
+
 export default {
-  data() {
-    return {
-      login: {
-        email: null,
-        password: null,
-      },
-    };
-  },
-  methods: {
-    async LoginForm() {
-      await axios
-        .post("https://masla7a.herokuapp.com/admin/control/admins/admin-login", this.login)
-        .then((res) => {
-          localStorage.setItem("token", res.data.token);
-          localStorage.setItem("parsedToken",JSON.stringify(jwt_decode(res.data.token)));
-        });
-
-      console.log(JSON.parse(localStorage.getItem("parsedToken")).role);
-
-      if (JSON.parse(localStorage.getItem("parsedToken")).role === "admin") {
-        this.$router.push("/");
-      } else {
-        this.$router.push("/login");
-      }
+    name: "login",
+    data() {
+        return {
+            errors: [],
+            email: null,
+            password: "",
+        };
     },
-  },
+    methods: {
+        async LoginForm() {
+
+            const data = {
+                email: this.email,
+                password: this.password,
+            };
+            try {
+
+                const response = await axios.post(
+                    "https://masla7a.herokuapp.com/admin/control/admins/admin-login",
+                    data
+                );
+                this.errors = [];
+
+                if (response.data && response.data.token ) {
+                    localStorage.setItem("token", response.data.token);
+                }
+                if (localStorage.getItem("token") != null) {
+                    this.$router.push("/");
+                } else {
+                    this.$router.push("/login");
+                }
+            } catch (error) {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data);
+                    this.errors.push(error.response.data)
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+            }
+
+        },
+        login() {
+            this.errors = [];
+            if (this.email == null || this.email == '') {
+                this.errors.push("Email required");
+                return false;
+            }
+
+            if (!this.password) {
+                this.errors.push("Password required.");
+                return false;
+            }
+        },
+    },
 };
 </script>
 
 <style scoped>
-* {
-  overflow: hidden;
+.row{
+  margin-right: 0;
 }
+li {
+    color: red;
+    display: inline-block;
+    padding-right: 40px;
+    font-size: 13px;
+    font-weight: 900;
+    list-style-type: circle !important;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+ 
 }
 
 .content {
-  height: 100vh;
-  width: 100vw;
-  -webkit-flex: 1; /* Safari */
-  -ms-flex: 1; /* IE 10 */
-  flex: 1; /* Standard syntax */
-  display: flex;
+    height: 100vh !important;
+    width: 100vw !important;
+    -webkit-flex: 1;
+    /* Safari */
+    -ms-flex: 1;
+    /* IE 10 */
+    flex: 1;
+    /* Standard syntax */
+    display: flex;
 }
+
 .left {
-  background-image: linear-gradient(to bottom, #447ae6, #223d73);
-  align-items: center;
-  margin: auto;
-  padding: auto;
-  text-align: center;
-  color: white;
+    background-image: linear-gradient(to bottom, #447ae6, #223d73);
+    border-radius: 0 60px 60px 0;
+    align-items: center;
+    margin: auto;
+    padding: auto;
+    text-align: center;
+    color: white;
 }
+
 .left img {
-  height: 400px;
-  width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 90px;
+    height: 450px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 90px;
 }
 
 .left p {
-  font-size: 14px;
-  font-family: Segoe UI;
-  color: white;
-  padding-top: 80px;
-  text-align: center;
-  letter-spacing: 1px;
-  font-weight: 500;
-}
-.right {
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-}
-h3 {
-  font-weight: 700;
-}
-/* ul social account */
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 1px;
-}
-.social li {
-  display: inline-block;
-  margin: 2px 20px 5px 0;
-}
-.social li a {
-  font-size: 12px;
-  font-weight: 600;
-  width: 180px;
-  margin: 1px 0 8px;
-  height: 35px;
-  line-height: 35px;
-  border-radius: 10px;
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    font-family: Georgia, "Times New Roman", Times, serif;;
+    color: white;
+    padding-top: 80px;
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 500;
 }
 
-.social li a span {
-  margin-right: 10px;
-  color: #fff;
+.right {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
-.facebook {
-  color: #4867aa;
+
+h3 {
+    font-weight: 900;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    padding-bottom: 20px;
 }
-.google {
-  color: #db4437;
-}
-/* or login with email & pass */
-.or-login {
-  width: 100%;
-  margin: 10px 0 5px;
-  text-align: center;
-  position: relative;
-}
-.or-login::before {
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 100%;
-  height: 1px;
-  background: #d8dcdc;
-  content: "";
-}
-.or-login > span {
-  width: auto;
-  float: none;
-  display: inline-block;
-  background: #fff;
-  padding: 1px 20px;
-  z-index: 1;
-  position: relative;
-  font-family: Open Sans;
-  font-size: 15px;
-  color: #616161;
-  text-transform: capitalize;
-}
+
 /* form */
 form {
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: left;
-  font-size: 13px;
-  font-family: "Segoe UI";
-  padding-top: 30px;
+    width: 100%;
+    margin: 0 !important;
+    text-align: left;
+    font-size: 13px;
+    font-family: "Segoe UI";
+    padding: 0 50px;
 }
+
 .invalid input {
-  border: 1px solid;
-  color: red;
+    border: 1px solid;
+    color: red;
 }
+
 .invalid label {
-  color: red;
+    color: red;
 }
+
+.input-group {
+    align-items: center;
+}
+
 /* inputs */
 input[type="email"],
 input[type="password"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 10px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
 }
+
 /* forget design*/
 .forget {
-  color: #4378e3;
-  font-size: 12px;
-  padding-left: 310px;
-  text-align: right;
-  text-decoration: none;
+    color: #4378e3;
+    font-size: 12px;
+    padding-left: 310px;
+    text-align: right;
+    text-decoration: none;
 }
+
 /* button */
 button {
-  background-color: #4378e3;
-  opacity: 0.5;
-  color: white;
-  padding: 14px 20px;
-  margin: 25px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 10px;
+    background-color: #4378e3;
+    opacity: 0.5;
+    color: white;
+    padding: 13px 20px;
+    margin: 25px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 8px;
 }
+
 button:hover {
-  opacity: 1;
+    opacity: 1;
 }
+
 /* create new account */
 .createNew {
-  margin: 15px;
-  text-align: center;
+    text-align: center;
 }
+
 /* link signup design */
 .signupLink {
-  text-decoration: none;
-  font-weight: bold;
-  color: #4378e3;
+    text-decoration: none;
+    font-weight: bold;
+    color: #4378e3;
+}
+
+.input-group-text {
+    background: white;
+    height: 50px;
+    color: #4378e3;
 }
 </style>

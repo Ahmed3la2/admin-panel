@@ -165,15 +165,12 @@ export default {
       }
       const params = queryParam;
       axios
-        .get(
-          "https://masla7a.herokuapp.com/admin/control/users/customers",
-          {
-            headers: { "x-auth-token": localStorage.getItem("token") },
-          params}
-        )
+        .get("https://masla7a.herokuapp.com/admin/control/users/customers", {
+          headers: { "x-auth-token": localStorage.getItem("token") },
+          params,
+        })
         .then((res) => {
           this.Allcustomer = res.data.customers;
-        
         });
     },
     sortedByOrder() {
@@ -196,12 +193,7 @@ export default {
       }
       this.callApi();
     },
-    Customername: function (val) {
-      setTimeout(() => {
-        this.callApi();
-        console.log(val);
-      }, 2000);
-    },
+
     oldestFirstOrder: function (val) {
       if (val == true) {
         this.sort = "orders_desc";
@@ -209,6 +201,12 @@ export default {
         this.sort = "orders_asc";
       }
       this.callApi();
+    },
+    Customername: function (val) {
+      setTimeout(() => {
+        this.callApi();
+        console.log(val);
+      }, 2000);
     },
   },
 };

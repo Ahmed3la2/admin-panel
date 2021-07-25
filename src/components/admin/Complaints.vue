@@ -108,7 +108,7 @@
               <td>Description</td>
             </tr>
           </thead>
-          <tbody v-for="order in orders" :key="order._id">
+          <tbody v-for="complaint in complaints" :key="complaint._id">
             <tr class="">
               <td>
                 <div class="row top-list mt-2">
@@ -116,11 +116,11 @@
                     <img
                       width="50px"
                       height="40px"
-                      :src="order.customer.profilePic"
+                      :src="complaint.user.profilePic"
                     />
                   </div>
                   <div class="col-9">
-                    <p class="mt-2 ml-2">{{ order.customer.name }}</p>
+                    <p class="mt-2 ml-2">{{ complaint.user.name }}</p>
                   </div>
                 </div>
               </td>
@@ -130,21 +130,21 @@
                     <img
                       width="50px"
                       height="40px"
-                      :src="order.serviceProvider.profilePic"
+                      :src=" complaint.serviceProvider.profilePic"
                     />
                   </div>
                   <div class="col-9">
                     <div>
-                      <p class="mt-2 ml-2">{{ order.serviceProvider.name }}</p>
+                      <p class="mt-2 ml-2">{{ complaint.serviceProvider.name }}</p>
                     </div>
                   </div>
                 </div>
               </td>
-              <td>type</td>
+              <td>{{complaint.complaintType}}</td>
               <td>
-                {{ checkDate(order.startsAt) }}
+                {{ checkDate(complaint.createdAt) }}
               </td>
-              <td>des</td>
+              <td>{{complaint.description}}</td>
             </tr>
           </tbody>
         </table>
@@ -159,12 +159,11 @@ export default {
   data() {
     return {
       oldestFirstDate: false,
-      oldestFirstProfit: false,
       dateFrom: "",
       dateTo: "",
       serviceprovidername: "",
       customername: "",
-      orders: [],
+      complaints: [],
       sort: "",
       arrowIconClassUp: "fa fa-arrow-up",
       arrowIconClassDown: "fa fa-arrow-down",
@@ -194,19 +193,16 @@ export default {
       }
       const params = queryParam;
       axios
-        .get("https://masla7a.herokuapp.com/admin/control/orders/", {
+        .get("https://masla7a.herokuapp.com/admin/control/complaints", {
           headers: { "x-auth-token": localStorage.getItem("token") },
           params,
         })
         .then((res) => {
-          this.orders = res.data.orders.slice(0, 6);
+          this.complaints = res.data.complaints.slice(0, 6);
         });
     },
     sortedByDate() {
       this.oldestFirstDate = !this.oldestFirstDate;
-    },
-    sortedByProfit() {
-      this.oldestFirstProfit = !this.oldestFirstProfit;
     },
   },
 
@@ -240,15 +236,6 @@ export default {
         this.sort = "date_desc";
       } else if (val == false) {
         this.sort = "date_asc";
-      }
-      this.callApi();
-    },
-
-    oldestFirstProfit: function (val) {
-      if (val == true) {
-        this.sort = "price_desc";
-      } else if (val == false) {
-        this.sort = "price_asc";
       }
       this.callApi();
     },

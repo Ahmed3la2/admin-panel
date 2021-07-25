@@ -132,7 +132,7 @@ export default {
           }
         )
         .then((res) => {
-          this.activeCustomers = res.data.activeCustomers;
+          this.activeCustomers = res.data.activeCustomers.slice(0, 4);;
           this.numberOfActiveCustomers = res.data.numberOfActiveCustomers;
           this.percentageOfActiveCustomers =
             res.data.percentageOfActiveCustomers;
