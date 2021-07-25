@@ -15,6 +15,8 @@ import cus_view from "../components/admin/customer_comp/cus_view.vue";
 import category from "../components/admin/category";
 import serviceCategory from "../components/admin/category_comp/serviceCategory"
 import add_category from "../components/admin/category_comp/add_cate";
+import edit_category from "../components/admin/category_comp/edit_cate";
+
 import login from "../views/login";
 // import jwt_decode from 'jwt-decode';
 Vue.use(VueRouter);
@@ -92,6 +94,11 @@ const routes = [{
                         path: "/addCategory",
                         name: "",
                         component: add_category,
+                    },
+                    {
+                        path: "/editCategory/:id",
+                        name: "",
+                        component: edit_category,
                     },
                 ]
             },

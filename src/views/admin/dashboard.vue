@@ -90,16 +90,8 @@
         </div>
       </div>
     </div>
-    <div class="home_content" style="background-color: #f0f0f0">
-      <div class="nav">
-        <div class="profile-box">
-          <img
-            src="https://s3.envato.com/files/1756629b-8de6-4d62-8297-8337dd29abc5/inline_image_preview.jpg"
-            alt=""
-          />
-          <span>kareem</span>
-        </div>
-      </div>
+    <div class="home_content" style="background-color: #F0F0F0">
+     
       <router-view></router-view>
     </div>
   </div>
