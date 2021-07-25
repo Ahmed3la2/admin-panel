@@ -62,10 +62,83 @@
                       class="d-flex justify-content-center"
                       style="align-items: center"
                     >
-                      <router-link :to="'/serv_view/' + item._id" tag="div">
+                      <router-link :to="'/editCategory/' + item._id" tag="div">
                         <i class="more fas fa-pencil-alt mr-3"></i>
                       </router-link>
-                      <i class="more fas fa-ellipsis-h"></i>
+                      <span
+                        type="button"
+                        data-toggle="modal"
+                        :data-target="`#staticBackdrop_${item._id}`"
+                      >
+                        <i class="fas fa-trash-alt more"></i>
+                      </span>
+                      <div
+                        class="modal fade"
+                        :id="`staticBackdrop_${item._id}`"
+                        data-backdrop="static"
+                        data-keyboard="false"
+                        tabindex="-1"
+                        aria-labelledby="staticBackdropLabel"
+                        aria-hidden="true"
+                      >
+                        <div class="modal-dialog" style="width: 400px">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <img
+                                src="../../../assets/sign.png"
+                                width="150"
+                                alt=""
+                                class="mb-4"
+                              />
+                              <h5
+                                class="mb-3"
+                                style="
+                                  text-align: initial;
+                                  width: 289px;
+                                  margin: auto;
+                                "
+                              >
+                                are You Sure Want to Delete <span class="text-danger">{{item.name}}</span> Catgory
+                              </h5>
+                              <p
+                                style="
+                                  text-align: initial;
+                                  width: 289px;
+                                  margin: auto;
+                                "
+                              >
+                                By deleting this catrgory yo cannot restore it
+                                again
+                              </p>
+                            </div>
+                            <div
+                              class="modal-footer"
+                              style="
+                                border: none;
+                                justify-content: space-between;
+                              "
+                            >
+                              <button
+                                style="width: 125px"
+                                type="button"
+                                class="btn btn-light"
+                                data-dismiss="modal"
+                              >
+                                Cancel
+                              </button>
+
+                              <button
+                                type="button"
+                                class="btn btn-danger"
+                                style="width: 125px"
+                                @click="delet(item._id)"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </table>
@@ -104,12 +177,24 @@ export default {
       })
       .then((res) => {
         this.AllCategories = res.data.categories;
-        console.log(this.AllCategories);
       });
   },
   methods: {
     onChangePage(pageOfItems) {
       this.pageOfItems = pageOfItems;
+    },
+    delet: function (id) {
+      console.log(id);
+      // axios
+      //   .get(
+      //     `https://masla7a.herokuapp.com/admin/control/categories/delete-category/${id}`,
+      //     {
+      //       headers: { "x-auth-token": localStorage.getItem("token") },
+      //     }
+      //   )
+      //   .then(() => {
+      //     window.location.reload();
+      //   });
     },
   },
 };
